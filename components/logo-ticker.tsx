@@ -35,7 +35,7 @@ export function LogoTicker({ logos = defaultLogos }: LogoTickerProps) {
   const duplicatedLogos = [...logos, ...logos, ...logos];
 
   return (
-    <section className="relative overflow-hidden bg-muted/30 py-8">
+    <section className="relative overflow-hidden bg-background py-8">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-2xl text-center">
           <p className="mt-4 text-lg text-muted-foreground">

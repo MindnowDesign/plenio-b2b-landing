@@ -24,6 +24,12 @@ export function AnimatedIcon({ children, delay = 0 }: AnimatedIconProps) {
     const svg = svgRef.current;
     const paths = svg.querySelectorAll("path, circle, line, polyline, polygon, rect");
 
+    if (paths.length === 0) {
+      // If no paths found, show icon immediately
+      gsap.set(svg, { opacity: 1 });
+      return;
+    }
+
     // Set initial state - paths are invisible
     paths.forEach((path) => {
       const element = path as SVGPathElement;
@@ -79,15 +85,19 @@ export function AnimatedIcon({ children, delay = 0 }: AnimatedIconProps) {
 
     return () => {
       ScrollTrigger.getAll().forEach((trigger) => {
-        if (trigger.vars.trigger === iconRef.current) {
+        if (trigger.vars?.trigger === iconRef.current) {
           trigger.kill();
         }
       });
     };
   }, [delay]);
 
-  if (!children || typeof children !== "object" || !("type" in children)) {
-    return null;
+  if (!React.isValidElement(children)) {
+    return (
+      <div className="flex h-6 w-6 items-center justify-center">
+        <div className="h-6 w-6 rounded bg-muted" />
+      </div>
+    );
   }
 
   const existingClassName = (children.props as any)?.className || "";
