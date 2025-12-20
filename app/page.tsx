@@ -1,7 +1,11 @@
+"use client"
+
+import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
-import { ArrowRight, CheckCircle2, Zap, Shield, TrendingUp, Users, BarChart3, Filter, UserSearch, Clock, CreditCard, Sparkles, LayoutDashboard } from "lucide-react";
+import { Separator } from "@/components/ui/separator";
+import { ArrowRight, CheckCircle2, Zap, Shield, TrendingUp, Users, BarChart3, Filter, UserSearch, Clock, CreditCard, Sparkles, LayoutDashboard, Linkedin, Instagram } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -9,13 +13,18 @@ import { LogoTicker } from "@/components/logo-ticker";
 import { AnimatedIcon } from "@/components/animated-icon";
 import { ScrollRevealText } from "@/components/scroll-reveal-text";
 import { LanguageSelector } from "@/components/language-selector";
-import { FooterReveal } from "@/components/footer-reveal";
+import { WaitlistDialog } from "@/components/waitlist-dialog";
+import { WaitlistTrigger } from "@/components/waitlist-trigger";
+import { IntegrationsDock } from "@/components/integrations-dock";
 
 export default function Home() {
+  const [waitlistOpen, setWaitlistOpen] = useState(false);
   return (
-    <div className="flex min-h-screen flex-col">
-      {/* Main content wrapper */}
-      <main className="main-content-wrapper">
+    <>
+      <WaitlistDialog open={waitlistOpen} onOpenChange={setWaitlistOpen} />
+      <div className="flex min-h-screen flex-col">
+        {/* Main content wrapper */}
+        <main className="main-content-wrapper">
       {/* Navigation */}
       <header className="sticky top-0 z-50 pt-4 pb-4">
         <nav className="mx-auto flex max-w-xl items-center justify-between rounded-2xl bg-foreground px-6 py-3 text-background outline-none dark:bg-foreground dark:text-background">
@@ -37,9 +46,9 @@ export default function Home() {
             <ThemeToggle />
             <Button 
               className="bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9"
-              asChild
+              onClick={() => setWaitlistOpen(true)}
             >
-              <Link href="#contact">Join waitlist</Link>
+              Join waitlist
             </Button>
           </div>
         </nav>
@@ -72,12 +81,7 @@ export default function Home() {
               <Button size="lg" variant="outline" asChild>
                 <Link href="#features-list">Learn more</Link>
               </Button>
-              <Button size="lg" asChild>
-                <Link href="#contact">
-                  Join waitlist
-                  <ArrowRight className="ml-2 h-4 w-4" />
-                </Link>
-              </Button>
+              <WaitlistTrigger size="lg" onClick={() => setWaitlistOpen(true)} />
             </div>
           </div>
         </div>
@@ -110,10 +114,7 @@ export default function Home() {
                 Placeholder description text. This is where the feature description will go. 
                 Placeholder description text. This is where the feature description will go.
               </p>
-              <button className="group flex items-center gap-2 text-foreground opacity-70 hover:opacity-100 transition-opacity">
-                <span>Learn more</span>
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
+              <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
             <div className="w-full h-96 bg-muted rounded-2xl" />
           </div>
@@ -128,12 +129,29 @@ export default function Home() {
                 Placeholder description text. This is where the feature description will go. 
                 Placeholder description text. This is where the feature description will go.
               </p>
-              <button className="group flex items-center gap-2 text-foreground opacity-70 hover:opacity-100 transition-opacity">
-                <span>Learn more</span>
-                <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />
-              </button>
+              <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
             <div className="w-full h-96 bg-muted rounded-2xl" />
+          </div>
+        </div>
+      </section>
+
+      {/* Integrations Section */}
+      <section id="integrations" className="bg-background py-32 sm:py-40">
+        <div className="container mx-auto px-4">
+          <div className="mx-auto max-w-4xl text-center mb-16">
+            <h2 className="text-3xl font-medium tracking-tight mb-6 sm:text-4xl">
+              Works seamlessly with your existing tools
+            </h2>
+            <p className="text-lg text-muted-foreground leading-8 sm:text-xl">
+              Plenio integrates with the apps your team already uses, so you can streamline your hiring process without disrupting your workflow.
+            </p>
+          </div>
+          <div className="flex items-center justify-center py-12">
+            <IntegrationsDock />
+          </div>
+          <div className="flex items-center justify-center mt-12">
+            <WaitlistTrigger size="lg" onClick={() => setWaitlistOpen(true)} showIcon={false} />
           </div>
         </div>
       </section>
@@ -216,75 +234,14 @@ export default function Home() {
               </p>
             </div>
           </div>
-        </div>
-      </section>
-
-      {/* Solutions Section */}
-      <section id="solutions" className="bg-background py-24 sm:py-32">
-        <div className="container mx-auto px-4">
-          <div className="mx-auto max-w-2xl text-center">
-            <h2 className="text-3xl font-medium tracking-tight sm:text-4xl">
-              Solutions for every need
-            </h2>
-            <p className="mt-4 text-lg text-muted-foreground">
-              Modular platforms that adapt to your industry
-            </p>
-          </div>
-          <div className="mx-auto mt-16 grid max-w-2xl grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-2">
-            <Card className="border-2">
-              <CardHeader>
-                <CardTitle className="text-2xl">Order Management</CardTitle>
-                <CardDescription className="text-base">
-                  Complete system for managing the B2B order lifecycle
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-sm">Workflow automation</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-sm">ERP system integration</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-sm">Real-time tracking</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
-            <Card className="border-2">
-              <CardHeader>
-                <CardTitle className="text-2xl">Advanced CRM</CardTitle>
-                <CardDescription className="text-base">
-                  Manage customer relationships with advanced intelligence tools
-                </CardDescription>
-              </CardHeader>
-              <CardContent>
-                <ul className="space-y-3">
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-sm">Customizable pipelines</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-sm">Predictive analytics</span>
-                  </li>
-                  <li className="flex items-start gap-3">
-                    <CheckCircle2 className="mt-0.5 h-5 w-5 text-primary flex-shrink-0" />
-                    <span className="text-sm">Marketing automation</span>
-                  </li>
-                </ul>
-              </CardContent>
-            </Card>
+          <div className="mt-16 flex items-center justify-center">
+            <WaitlistTrigger size="lg" onClick={() => setWaitlistOpen(true)} />
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="bg-background py-24 sm:py-32" data-footer-trigger>
+      <section id="faq" className="bg-background py-24 sm:py-32">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
             {/* Left side - Title */}
@@ -337,53 +294,107 @@ export default function Home() {
       </section>
 
       {/* Footer */}
-      <FooterReveal>
-        <div className="border-t bg-foreground dark:bg-foreground dark:border-background/20">
-        <div className="container mx-auto px-4 py-12">
-          <div className="grid grid-cols-1 gap-8 md:grid-cols-4">
-            <div className="space-y-4">
-              <div className="flex items-center space-x-2">
-                <div className="flex h-8 w-8 items-center justify-center rounded-lg bg-background text-foreground font-medium dark:bg-background dark:text-foreground">
-                  P
+      <footer className="bg-foreground dark:bg-foreground rounded-t-2xl sm:rounded-t-3xl">
+          <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Large Logo Section */}
+            <div className="flex justify-center py-16 sm:py-20">
+              <Image
+                src="/Logo/plenio-logo.svg"
+                alt="Plenio"
+                width={1200}
+                height={300}
+                className="h-auto w-full dark:invert"
+                priority
+              />
+            </div>
+
+            {/* Divider */}
+            <Separator className="bg-border/20 dark:bg-border/20" />
+
+            {/* Footer Content */}
+            <div className="flex flex-col gap-8 py-12 sm:flex-row sm:items-end sm:justify-between">
+              {/* Left Side - Links in two columns */}
+              <div className="flex flex-col gap-8 sm:flex-row sm:gap-24">
+                {/* First column of links */}
+                <div className="flex flex-col gap-2 opacity-40">
+                  <Link 
+                    href="#impressum" 
+                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                  >
+                    Impressum
+                  </Link>
+                  <Link 
+                    href="#privacy" 
+                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                  >
+                    Privacy Policy
+                  </Link>
+                  <Link 
+                    href="#terms" 
+                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                  >
+                    Terms & Conditions
+                  </Link>
+                  <Link 
+                    href="#support" 
+                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                  >
+                    Support
+                  </Link>
                 </div>
-                <span className="text-xl font-medium text-background dark:text-background">Plenio</span>
+
+                {/* Second column of links */}
+                <div className="flex flex-col gap-2 opacity-40">
+                  <Link 
+                    href="https://linkedin.com/company/plenio" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                  >
+                    Linkedin
+                  </Link>
+                  <Link 
+                    href="https://instagram.com/plenio" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                  >
+                    Instagram
+                  </Link>
+                  <Link 
+                    href="https://plenio.com"
+                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                  >
+                    Plenio for candidate
+                  </Link>
+                </div>
               </div>
-              <p className="text-sm text-background/70 dark:text-background/70">
-                Innovative B2B solutions for your business.
-              </p>
-            </div>
-            <div>
-              <h3 className="mb-4 text-sm font-medium text-background dark:text-background">Product</h3>
-              <ul className="space-y-2 text-sm text-background/70 dark:text-background/70">
-                <li><Link href="#features" className="hover:text-background dark:hover:text-background transition-colors">Features</Link></li>
-                <li><Link href="#solutions" className="hover:text-background dark:hover:text-background transition-colors">Solutions</Link></li>
-                <li><Link href="#pricing" className="hover:text-background dark:hover:text-background transition-colors">Pricing</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 text-sm font-medium text-background dark:text-background">Company</h3>
-              <ul className="space-y-2 text-sm text-background/70 dark:text-background/70">
-                <li><Link href="#about" className="hover:text-background dark:hover:text-background transition-colors">About us</Link></li>
-                <li><Link href="#blog" className="hover:text-background dark:hover:text-background transition-colors">Blog</Link></li>
-                <li><Link href="#careers" className="hover:text-background dark:hover:text-background transition-colors">Careers</Link></li>
-              </ul>
-            </div>
-            <div>
-              <h3 className="mb-4 text-sm font-medium text-background dark:text-background">Support</h3>
-              <ul className="space-y-2 text-sm text-background/70 dark:text-background/70">
-                <li><Link href="#contact" className="hover:text-background dark:hover:text-background transition-colors">Contact</Link></li>
-                <li><Link href="#docs" className="hover:text-background dark:hover:text-background transition-colors">Documentation</Link></li>
-                <li><Link href="#support" className="hover:text-background dark:hover:text-background transition-colors">Support</Link></li>
-              </ul>
+
+              {/* Right Side - Status badge and copyright */}
+              <div className="flex flex-col gap-6 items-end">
+                {/* In progress badge */}
+                <div className="bg-[#262626] flex gap-2 items-center px-3 py-1 rounded-full">
+                  <div className="relative shrink-0 w-2 h-2">
+                    <div className="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-100"></div>
+                    <div className="relative bg-blue-500 rounded-full w-2 h-2"></div>
+                  </div>
+                  <p className="text-sm leading-6 text-[#e8e7ed]">
+                    In progress
+                  </p>
+                </div>
+
+                {/* Copyright and Address */}
+                <div className="flex flex-col gap-4 text-base leading-6 text-background/50 dark:text-background/50 sm:flex-row sm:items-center sm:gap-4">
+                  <p>© {new Date().getFullYear()} Plenio</p>
+                  <p className="hidden sm:inline">•</p>
+                  <p>Weite Gasse 13, 5400 Baden, Switzerland</p>
+                </div>
+              </div>
             </div>
           </div>
-          <div className="mt-12 border-t border-background/20 dark:border-background/20 pt-8 text-center text-sm text-background/70 dark:text-background/70">
-            <p>&copy; {new Date().getFullYear()} Plenio. All rights reserved.</p>
-          </div>
-        </div>
-        </div>
-      </FooterReveal>
+        </footer>
       </main>
     </div>
+    </>
   );
 }
