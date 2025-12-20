@@ -214,11 +214,6 @@ export function ParticleLogo({
       tempCanvas.height = height;
       const tempCtx = tempCanvas.getContext("2d");
       if (!tempCtx) return;
-
-      // Invert colors if dark mode
-      if (isDark) {
-        tempCtx.filter = "invert(1)";
-      }
       
       tempCtx.drawImage(img, 0, 0, width, height);
       
@@ -243,10 +238,10 @@ export function ParticleLogo({
             const normalizedX = (x / width) * canvasWidth;
             const normalizedY = (y / height) * canvasHeight;
             
-            // Use original colors, not just white - store as RGB numbers for performance
-            const finalR = isDark ? 255 - r : r;
-            const finalG = isDark ? 255 - g : g;
-            const finalB = isDark ? 255 - b : b;
+            // In dark mode, use black particles; in light mode, use original colors
+            const finalR = isDark ? 0 : r;
+            const finalG = isDark ? 0 : g;
+            const finalB = isDark ? 0 : b;
             
             particles.push({
               x: normalizedX,
