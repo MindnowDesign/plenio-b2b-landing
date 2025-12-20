@@ -55,6 +55,40 @@ interface ScrollTiltImageProps {
    * @default "cubic-bezier(0.4, 0, 0.2, 1)"
    */
   easing?: string;
+  
+  /**
+   * Video source URL to use as placeholder
+   */
+  videoSrc?: string;
+  
+  /**
+   * Video poster image URL (shown before video loads)
+   */
+  videoPoster?: string;
+  
+  /**
+   * Whether the video should autoplay
+   * @default true
+   */
+  videoAutoplay?: boolean;
+  
+  /**
+   * Whether the video should loop
+   * @default true
+   */
+  videoLoop?: boolean;
+  
+  /**
+   * Whether the video should be muted
+   * @default true
+   */
+  videoMuted?: boolean;
+  
+  /**
+   * Whether the video should play inline (important for mobile)
+   * @default true
+   */
+  videoPlaysInline?: boolean;
 }
 
 export function ScrollTiltImage({
@@ -67,8 +101,15 @@ export function ScrollTiltImage({
   width = "100%",
   height = "900px",
   easing = "cubic-bezier(0.4, 0, 0.2, 1)",
+  videoSrc,
+  videoPoster,
+  videoAutoplay = true,
+  videoLoop = true,
+  videoMuted = true,
+  videoPlaysInline = true,
 }: ScrollTiltImageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const videoRef = useRef<HTMLVideoElement>(null);
   const [rotation, setRotation] = useState(initialRotation);
   const animationStartYRef = useRef<number | null>(null);
 
@@ -149,7 +190,7 @@ export function ScrollTiltImage({
           }}
         >
           <div
-            className={`bg-foreground/10 dark:bg-muted/60 rounded-2xl ${imageClassName}`}
+            className={`bg-foreground/10 dark:bg-muted/60 rounded-2xl overflow-hidden ${imageClassName}`}
             style={{
               width,
               height,
@@ -157,8 +198,26 @@ export function ScrollTiltImage({
               transformStyle: "preserve-3d",
               backfaceVisibility: "hidden",
               willChange: "transform",
+              outline: "1px solid rgba(0, 0, 0, 0.08)",
+              boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
             }}
-          />
+          >
+            {videoSrc ? (
+              <video
+                ref={videoRef}
+                src={videoSrc}
+                poster={videoPoster}
+                autoPlay={videoAutoplay}
+                loop={videoLoop}
+                muted={videoMuted}
+                playsInline={videoPlaysInline}
+                className="w-full h-full object-cover"
+                style={{
+                  transform: "translateZ(0)",
+                }}
+              />
+            ) : null}
+          </div>
         </div>
       </div>
     </section>

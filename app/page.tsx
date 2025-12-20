@@ -185,7 +185,9 @@ export default function Home() {
       <HeroSection onWaitlistClick={() => setWaitlistOpen(true)} />
 
       {/* Scroll Tilt Image */}
-      <ScrollTiltImage />
+      <ScrollTiltImage 
+        videoSrc="https://cdn.dribbble.com/userupload/19052941/file/original-8861eb29d3e66793a25358a5e5e1ce88.mp4"
+      />
 
       {/* Logo Ticker */}
       <LogoTicker />
@@ -216,7 +218,16 @@ export default function Home() {
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
-            <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl" />
+            <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl overflow-hidden">
+              <video
+                src="https://cdn.dribbble.com/userupload/15982653/file/original-2916eedc1ec4162cd8069f253d9e9f5c.mov"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            </div>
           </ScrollRevealCard>
 
           {/* Feature 2 */}
@@ -231,7 +242,16 @@ export default function Home() {
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
-            <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl" />
+            <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl overflow-hidden">
+              <video
+                src="https://cdn.dribbble.com/userupload/43460030/file/original-88147efc26f589721dea0cdfd22da3bd.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            </div>
           </ScrollRevealCard>
 
           {/* Feature 3 */}
@@ -246,7 +266,16 @@ export default function Home() {
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
-            <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl" />
+            <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl overflow-hidden">
+              <video
+                src="https://cdn.dribbble.com/userupload/13667104/file/original-e039b91c6bb824279ad0a54bd2fb9264.mp4"
+                autoPlay
+                loop
+                muted
+                playsInline
+                className="w-full h-full object-cover"
+              />
+            </div>
           </ScrollRevealCard>
         </div>
       </section>
