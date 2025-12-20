@@ -1,57 +1,53 @@
-# Plenio B2B Landing
+# B2B Landing Page
 
-Landing page moderna per Plenio B2B, costruita con Next.js 16 e shadcn/ui.
+A modern landing page built with Next.js 16 and shadcn/ui.
 
-## 🚀 Tecnologie
+## 🚀 Technologies
 
-- **Next.js 16** - Framework React per produzione
+- **Next.js 16** - React framework for production
 - **TypeScript** - Type safety
-- **Tailwind CSS** - Styling utility-first
-- **shadcn/ui** - Componenti UI accessibili e personalizzabili
-- **Lucide React** - Icone moderne
+- **Tailwind CSS** - Utility-first CSS framework
+- **shadcn/ui** - Accessible and customizable UI components
+- **Lucide React** - Modern icon library
 
-## 📦 Installazione
+## 📦 Installation
 
 ```bash
-# Installa le dipendenze
+# Install dependencies
 npm install
 
-# Avvia il server di sviluppo
+# Start development server
 npm run dev
 ```
 
-Apri [http://localhost:3000](http://localhost:3000) nel browser per vedere il risultato.
+Open [http://localhost:3000](http://localhost:3000) in your browser to view the result.
 
-## 🛠️ Script disponibili
+## 🛠️ Available Scripts
 
-- `npm run dev` - Avvia il server di sviluppo
-- `npm run build` - Crea la build di produzione
-- `npm run start` - Avvia il server di produzione
-- `npm run lint` - Esegue il linter
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run start` - Start production server
+- `npm run lint` - Run linter
 
-## 📁 Struttura del progetto
+## 📁 Project Structure
 
 ```
-plenio-b2b-landing/
+.
 ├── app/
-│   ├── layout.tsx      # Layout principale
+│   ├── layout.tsx      # Main layout
 │   ├── page.tsx        # Homepage
-│   └── globals.css     # Stili globali
+│   └── globals.css     # Global styles
 ├── components/
-│   └── ui/             # Componenti shadcn/ui
+│   └── ui/             # shadcn/ui components
 ├── lib/
 │   └── utils.ts        # Utility functions
-└── public/             # File statici
+└── public/             # Static files
 ```
 
-## 🎨 Componenti UI
+## 🎨 UI Components
 
-Questo progetto utilizza [shadcn/ui](https://ui.shadcn.com/) per i componenti. Per aggiungere nuovi componenti:
+This project uses [shadcn/ui](https://ui.shadcn.com/) for components. To add new components:
 
 ```bash
 npx shadcn@latest add [component-name]
 ```
-
-## 📝 Licenza
-
-Questo progetto è privato e di proprietà di Plenio.

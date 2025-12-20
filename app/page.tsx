@@ -185,7 +185,7 @@ export default function Home() {
           <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20 mt-4">
             {/* First Row */}
             <div className="flex flex-col gap-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-background">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0}>
                   <Filter className="h-6 w-6" />
                 </AnimatedIcon>
@@ -196,7 +196,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col gap-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-background">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.1}>
                   <UserSearch className="h-6 w-6" />
                 </AnimatedIcon>
@@ -207,7 +207,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col gap-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-background">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.2}>
                   <Clock className="h-6 w-6" />
                 </AnimatedIcon>
@@ -219,7 +219,7 @@ export default function Home() {
             </div>
             {/* Second Row */}
             <div className="flex flex-col gap-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-background">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.3}>
                   <CreditCard className="h-6 w-6" />
                 </AnimatedIcon>
@@ -230,7 +230,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col gap-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-background">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.4}>
                   <Sparkles className="h-6 w-6" />
                 </AnimatedIcon>
@@ -241,7 +241,7 @@ export default function Home() {
               </p>
             </div>
             <div className="flex flex-col gap-6">
-              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-background">
+              <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.5}>
                   <LayoutDashboard className="h-6 w-6" />
                 </AnimatedIcon>
@@ -338,25 +338,25 @@ export default function Home() {
                 <div className="flex flex-col gap-4">
                   <Link 
                     href="#impressum" 
-                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Impressum
                   </Link>
                   <Link 
                     href="#privacy" 
-                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Privacy Policy
                   </Link>
                   <Link 
                     href="#terms" 
-                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Terms & Conditions
                   </Link>
                   <Link 
                     href="#support" 
-                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Support
                   </Link>
@@ -368,7 +368,7 @@ export default function Home() {
                     href="https://linkedin.com/company/plenio" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Linkedin
                   </Link>
@@ -376,13 +376,13 @@ export default function Home() {
                     href="https://instagram.com/plenio" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Instagram
                   </Link>
                   <Link 
                     href="https://plenio.com"
-                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
+                    className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Plenio for candidate
                   </Link>
@@ -392,12 +392,12 @@ export default function Home() {
               {/* Right Side - Status badge and copyright */}
               <div className="flex flex-col gap-8 items-end">
                 {/* In progress badge */}
-                <div className="bg-[#262626] flex gap-2 items-center px-3 py-1 rounded-full">
+                <div className="bg-background/10 dark:bg-background/10 flex gap-2 items-center px-3 py-1 rounded-full">
                   <div className="relative shrink-0 w-2 h-2">
                     <div className="absolute inset-0 bg-blue-500 rounded-full animate-ping opacity-100"></div>
                     <div className="relative bg-blue-500 rounded-full w-2 h-2"></div>
                   </div>
-                  <p className="text-sm leading-6 text-[#e8e7ed]">
+                  <p className="text-sm leading-6 text-white dark:text-background">
                     In progress
                   </p>
                 </div>

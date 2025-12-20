@@ -106,7 +106,7 @@ export function AnimatedIcon({ children, delay = 0 }: AnimatedIconProps) {
     <div ref={iconRef} className="flex h-6 w-6 items-center justify-center">
       {React.cloneElement(children as React.ReactElement<any>, {
         ref: svgRef,
-        className: `${existingClassName} h-6 w-6 text-white dark:text-foreground`.trim(),
+        className: `${existingClassName} h-6 w-6 text-white dark:text-background`.trim(),
         strokeWidth: 1.5,
       } as any)}
     </div>
