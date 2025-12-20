@@ -40,17 +40,25 @@ export function WaitlistTrigger({
     )
   }
 
+  const textContent = children || "Join waitlist"
+  const hasIcon = showIcon && !children
+
   return (
     <Button
       size={size}
       onClick={onClick}
-      className={className}
+      className={cn("group relative overflow-hidden", className)}
     >
-      {children || (
-        <>
-          Join waitlist
-          {showIcon && <ArrowRight className="ml-2 h-4 w-4" />}
-        </>
+      <span className="relative inline-block overflow-hidden">
+        <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
+          {textContent}
+        </span>
+        <span className="absolute inset-0 block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -translate-y-full group-hover:translate-y-0">
+          {textContent}
+        </span>
+      </span>
+      {hasIcon && (
+        <ArrowRight className="ml-2 h-4 w-4 transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-x-1" />
       )}
     </Button>
   )

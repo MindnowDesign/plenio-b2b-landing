@@ -45,10 +45,17 @@ export default function Home() {
             <LanguageSelector />
             <ThemeToggle />
             <Button 
-              className="bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9"
+              className="group relative overflow-hidden bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9"
               onClick={() => setWaitlistOpen(true)}
             >
-              Join waitlist
+              <span className="relative inline-block overflow-hidden">
+                <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
+                  Join waitlist
+                </span>
+                <span className="absolute inset-0 block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -translate-y-full group-hover:translate-y-0">
+                  Join waitlist
+                </span>
+              </span>
             </Button>
           </div>
         </nav>
@@ -78,10 +85,19 @@ export default function Home() {
               Define the person you need, not just the role. Our AI-powered platform understands context, culture fit, and what truly matters for your team.
             </p>
             <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Button size="lg" variant="outline" asChild>
-                <Link href="#features-list">Learn more</Link>
+              <Button size="lg" variant="outline" asChild className="group relative overflow-hidden">
+                <Link href="#features-list">
+                  <span className="relative inline-block overflow-hidden">
+                    <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
+                      Learn more
+                    </span>
+                    <span className="absolute inset-0 block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -translate-y-full group-hover:translate-y-0">
+                      Learn more
+                    </span>
+                  </span>
+                </Link>
               </Button>
-              <WaitlistTrigger size="lg" onClick={() => setWaitlistOpen(true)} />
+              <WaitlistTrigger size="lg" onClick={() => setWaitlistOpen(true)} showIcon={false} />
             </div>
           </div>
         </div>
@@ -160,11 +176,14 @@ export default function Home() {
       <section id="features" className="bg-background py-24 sm:py-32">
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center mb-16">
-            <h2 className="text-3xl font-medium tracking-tight sm:text-4xl">
+            <h2 className="text-3xl font-medium tracking-tight mb-6 sm:text-4xl">
               Designed to make hiring smarter
             </h2>
+            <p className="text-lg text-muted-foreground leading-8 sm:text-xl">
+              Our platform combines AI-powered matching with deep insights to help you find the right talent faster and more efficiently.
+            </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20 mt-4">
             {/* First Row */}
             <div className="flex flex-col gap-6">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-background">
@@ -235,13 +254,13 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-16 flex items-center justify-center">
-            <WaitlistTrigger size="lg" onClick={() => setWaitlistOpen(true)} />
+            <WaitlistTrigger size="lg" onClick={() => setWaitlistOpen(true)} showIcon={false} />
           </div>
         </div>
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="bg-background py-24 sm:py-32">
+      <section id="faq" className="bg-background py-24 sm:py-32 mb-16 sm:mb-24">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
             {/* Left side - Title */}
@@ -250,40 +269,40 @@ export default function Home() {
                 FAQ
               </h3>
               <h2 className="text-3xl font-medium tracking-tight sm:text-4xl">
-                Have questions? We're happy to chat.
+                Have questions?<br />We're happy to chat.
               </h2>
             </div>
             
             {/* Right side - Accordion */}
             <div className="flex flex-col">
               <Accordion type="single" collapsible className="w-full">
-                <AccordionItem value="item-1" className="border-b mb-4">
-                  <AccordionTrigger className="text-left text-base font-normal py-5">What does "brand OS" mean?</AccordionTrigger>
-                  <AccordionContent className="text-base">
+                <AccordionItem value="item-1" className="border-b">
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">What does "brand OS" mean?</AccordionTrigger>
+                  <AccordionContent className="text-base text-muted-foreground">
                     While there has been talk of brand operating systems for a while, they've still been static frameworks or ways of thinking that remain hard to implement. We have built a true living platform that is interactive, dynamic and able to power your brand at scale.
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="item-2" className="border-b mb-4">
-                  <AccordionTrigger className="text-left text-base font-normal py-5">How does Plenio bring my brand to life?</AccordionTrigger>
-                  <AccordionContent className="text-base">
+                <AccordionItem value="item-2" className="border-b">
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">How does Plenio bring my brand to life?</AccordionTrigger>
+                  <AccordionContent className="text-base text-muted-foreground">
                     Brand is now more than a linear narrative. It's an expanding mosaic of touch-points that needs more than guidelines to power it to be cohesive and effective. Brand leaders can't be everywhere at once, so Plenio translates what's in your head and strategy docs into a living tool to empower partners.
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="item-3" className="border-b mb-4">
-                  <AccordionTrigger className="text-left text-base font-normal py-5">What is the Plenio Early Access Program?</AccordionTrigger>
-                  <AccordionContent className="text-base">
+                <AccordionItem value="item-3" className="border-b">
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">What is the Plenio Early Access Program?</AccordionTrigger>
+                  <AccordionContent className="text-base text-muted-foreground">
                     The Plenio Early Access Program is an exclusive opportunity for select partners to test-drive our groundbreaking AI-powered brand management platform before it's publicly available. Early partners gain preferred pricing.
                   </AccordionContent>
                 </AccordionItem>
-                <AccordionItem value="item-4" className="border-b mb-4">
-                  <AccordionTrigger className="text-left text-base font-normal py-5">How can I join the Early Access Program?</AccordionTrigger>
-                  <AccordionContent className="text-base">
+                <AccordionItem value="item-4" className="border-b">
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">How can I join the Early Access Program?</AccordionTrigger>
+                  <AccordionContent className="text-base text-muted-foreground">
                     We're currently working with a limited number of partners who share our vision for reducing the time and space spent between the brand and the end consumer. If you're interested in being considered for the program, please join our waitlist and share some information about your brand challenges.
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-5" className="border-b">
-                  <AccordionTrigger className="text-left text-base font-normal py-5">How do I get in touch?</AccordionTrigger>
-                  <AccordionContent className="text-base">
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">How do I get in touch?</AccordionTrigger>
+                  <AccordionContent className="text-base text-muted-foreground">
                     Request early access or email us at hello@plenio.com
                   </AccordionContent>
                 </AccordionItem>
@@ -316,40 +335,40 @@ export default function Home() {
               {/* Left Side - Links in two columns */}
               <div className="flex flex-col gap-8 sm:flex-row sm:gap-24">
                 {/* First column of links */}
-                <div className="flex flex-col gap-2 opacity-40">
+                <div className="flex flex-col gap-4">
                   <Link 
                     href="#impressum" 
-                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Impressum
                   </Link>
                   <Link 
                     href="#privacy" 
-                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Privacy Policy
                   </Link>
                   <Link 
                     href="#terms" 
-                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Terms & Conditions
                   </Link>
                   <Link 
                     href="#support" 
-                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Support
                   </Link>
                 </div>
 
                 {/* Second column of links */}
-                <div className="flex flex-col gap-2 opacity-40">
+                <div className="flex flex-col gap-4">
                   <Link 
                     href="https://linkedin.com/company/plenio" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Linkedin
                   </Link>
@@ -357,13 +376,13 @@ export default function Home() {
                     href="https://instagram.com/plenio" 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Instagram
                   </Link>
                   <Link 
                     href="https://plenio.com"
-                    className="text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white transition-colors"
+                    className="footer-link text-base leading-5 text-background/80 hover:text-white dark:text-background/80 dark:hover:text-white opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
                     Plenio for candidate
                   </Link>
