@@ -19,6 +19,7 @@ import { WaitlistTrigger } from "@/components/waitlist-trigger";
 import { IntegrationsDock } from "@/components/integrations-dock";
 import { HeroSection } from "@/components/hero-section";
 import { ScrollTiltImage } from "@/components/scroll-tilt-image";
+import { ParticleLogo } from "@/components/particle-logo";
 
 export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
@@ -448,13 +449,17 @@ export default function Home() {
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             {/* Large Logo Section */}
             <div className="flex justify-center py-8 sm:py-20">
-              <Image
+              <ParticleLogo
                 src="/Logo/plenio-logo.svg"
                 alt="Plenio"
                 width={1200}
                 height={300}
-                className="h-auto w-full dark:invert"
-                priority
+                className="h-auto w-full max-w-[1200px]"
+                particleSize={1}
+                particleSpacing={6}
+                mouseRadius={120}
+                mouseStrength={0.4}
+                damping={0.88}
               />
             </div>
 
