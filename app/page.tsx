@@ -22,9 +22,8 @@ export default function Home() {
   return (
     <>
       <WaitlistDialog open={waitlistOpen} onOpenChange={setWaitlistOpen} />
-      <div className="flex min-h-screen flex-col">
-        {/* Main content wrapper */}
-        <main className="main-content-wrapper">
+      {/* Main content wrapper */}
+      <main className="main-content-wrapper">
       {/* Navigation */}
       <header className="sticky top-0 z-50 pt-4 pb-4">
         <nav className="mx-auto flex max-w-xl items-center justify-between rounded-2xl bg-foreground px-6 py-3 text-background outline-none dark:bg-foreground dark:text-background">
@@ -163,7 +162,7 @@ export default function Home() {
               Plenio integrates with the apps your team already uses, so you can streamline your hiring process without disrupting your workflow.
             </p>
           </div>
-          <div className="flex items-center justify-center py-12">
+          <div className="flex items-center justify-center">
             <IntegrationsDock />
           </div>
           <div className="flex items-center justify-center mt-12">
@@ -260,7 +259,7 @@ export default function Home() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="bg-background py-24 sm:py-32 mb-16 sm:mb-24">
+      <section id="faq" className="bg-background py-24 sm:py-32">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 gap-12 lg:grid-cols-2 lg:gap-20">
             {/* Left side - Title */}
@@ -311,9 +310,10 @@ export default function Home() {
           </div>
         </div>
       </section>
+      </main>
 
       {/* Footer */}
-      <footer className="bg-foreground dark:bg-foreground rounded-t-2xl sm:rounded-t-3xl">
+      <footer className="footer-sticky-reveal bg-foreground dark:bg-foreground rounded-t-2xl sm:rounded-t-3xl">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             {/* Large Logo Section */}
             <div className="flex justify-center py-16 sm:py-20">
@@ -331,7 +331,7 @@ export default function Home() {
             <Separator className="bg-border/20 dark:bg-border/20" />
 
             {/* Footer Content */}
-            <div className="flex flex-col gap-8 py-12 sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex flex-col gap-8 py-12 items-end sm:flex-row sm:items-end sm:justify-between">
               {/* Left Side - Links in two columns */}
               <div className="flex flex-col gap-8 sm:flex-row sm:gap-24">
                 {/* First column of links */}
@@ -390,7 +390,7 @@ export default function Home() {
               </div>
 
               {/* Right Side - Status badge and copyright */}
-              <div className="flex flex-col gap-6 items-end">
+              <div className="flex flex-col gap-8 items-end">
                 {/* In progress badge */}
                 <div className="bg-[#262626] flex gap-2 items-center px-3 py-1 rounded-full">
                   <div className="relative shrink-0 w-2 h-2">
@@ -403,17 +403,14 @@ export default function Home() {
                 </div>
 
                 {/* Copyright and Address */}
-                <div className="flex flex-col gap-4 text-base leading-6 text-background/50 dark:text-background/50 sm:flex-row sm:items-center sm:gap-4">
+                <div className="flex flex-col gap-2 text-base leading-6 text-background/80 dark:text-background/80 opacity-40 items-end">
                   <p>© {new Date().getFullYear()} Plenio</p>
-                  <p className="hidden sm:inline">•</p>
                   <p>Weite Gasse 13, 5400 Baden, Switzerland</p>
                 </div>
               </div>
             </div>
           </div>
         </footer>
-      </main>
-    </div>
     </>
   );
 }

@@ -24,7 +24,7 @@ export function IntegrationsDock() {
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
 
   return (
-    <div className="flex items-end justify-center gap-4 sm:gap-6 md:gap-8 pb-4">
+    <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-5 mb-4">
       {integrations.map((integration, index) => {
         const isHovered = hoveredIndex === index;
         const distance = hoveredIndex !== null 
@@ -34,11 +34,11 @@ export function IntegrationsDock() {
         // Calculate scale based on hover state and distance (Apple Dock effect)
         let scale = 1;
         if (isHovered) {
-          scale = 1.5;
+          scale = 1.25;
         } else if (distance !== null && distance <= 3) {
           // Nearby icons scale slightly (wave effect)
           const proximity = 1 - distance / 3;
-          scale = 1 + (0.15 * proximity);
+          scale = 1 + (0.1 * proximity);
         }
 
         return (
@@ -49,7 +49,7 @@ export function IntegrationsDock() {
             onMouseLeave={() => setHoveredIndex(null)}
             style={{
               transform: `scale(${scale}) translateY(${isHovered ? '-8px' : '0px'})`,
-              transition: "transform 0.35s cubic-bezier(0.4, 0, 0.2, 1)",
+              transition: "transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
               zIndex: isHovered ? 10 : 1,
             }}
           >
@@ -61,30 +61,20 @@ export function IntegrationsDock() {
               </div>
             )}
 
-            {/* Icon container */}
-            <div
-              className="relative flex h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 items-center justify-center rounded-xl bg-muted border border-border transition-all duration-300 hover:border-foreground/20 overflow-hidden p-2 sm:p-3 md:p-4"
-              style={{
-                boxShadow: isHovered
-                  ? "0 12px 40px rgba(0, 0, 0, 0.2), 0 0 0 1px rgba(0, 0, 0, 0.05)"
-                  : "0 2px 8px rgba(0, 0, 0, 0.05)",
-              }}
-            >
-              {/* Logo with error handling */}
-              {imageErrors.has(index) ? (
-                <div className="h-8 w-8 sm:h-10 sm:w-10 md:h-12 md:w-12 rounded-lg bg-muted-foreground/20" />
-              ) : (
-                <Image
-                  src={integration.icon}
-                  alt={integration.name}
-                  width={48}
-                  height={48}
-                  className="h-full w-full object-contain"
-                  onError={() => setImageErrors((prev) => new Set(prev).add(index))}
-                  unoptimized
-                />
-              )}
-            </div>
+            {/* Logo with error handling */}
+            {imageErrors.has(index) ? (
+              <div className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 rounded-lg bg-muted-foreground/20" />
+            ) : (
+              <Image
+                src={integration.icon}
+                alt={integration.name}
+                width={80}
+                height={80}
+                className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain"
+                onError={() => setImageErrors((prev) => new Set(prev).add(index))}
+                unoptimized
+              />
+            )}
           </div>
         );
       })}

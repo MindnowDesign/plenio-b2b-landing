@@ -243,6 +243,19 @@
   z-index: 1;
   min-height: 100vh;
   background: var(--background);
+  transform: translate3d(0, 0, 0); /* Safari hardware acceleration fix */
+  padding-bottom: 0; /* Footer will be revealed as we scroll */
+}
+
+/* Sticky revealing footer */
+.footer-sticky-reveal {
+  position: sticky !important;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  z-index: 0;
+  will-change: transform;
 }
 
 /* Smooth dialog animations */
