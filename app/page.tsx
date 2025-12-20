@@ -1,7 +1,6 @@
 "use client"
 
-import { useState, useEffect, useRef, useCallback } from "react";
-import dynamic from "next/dynamic";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -10,28 +9,14 @@ import { ArrowRight, CheckCircle2, Zap, Shield, TrendingUp, Users, BarChart3, Fi
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
+import { LogoTicker } from "@/components/logo-ticker";
+import { AnimatedIcon } from "@/components/animated-icon";
+import { ScrollRevealText } from "@/components/scroll-reveal-text";
 import { LanguageSelector } from "@/components/language-selector";
 import { WaitlistDialog } from "@/components/waitlist-dialog";
 import { WaitlistTrigger } from "@/components/waitlist-trigger";
-
-// Lazy load heavy components
-const LogoTicker = dynamic(() => import("@/components/logo-ticker").then(mod => ({ default: mod.LogoTicker })), {
-  ssr: true,
-  loading: () => <div className="h-24" />,
-});
-
-const IntegrationsDock = dynamic(() => import("@/components/integrations-dock").then(mod => ({ default: mod.IntegrationsDock })), {
-  ssr: true,
-  loading: () => <div className="h-32" />,
-});
-
-const ScrollRevealText = dynamic(() => import("@/components/scroll-reveal-text").then(mod => ({ default: mod.ScrollRevealText })), {
-  ssr: true,
-});
-
-const AnimatedIcon = dynamic(() => import("@/components/animated-icon").then(mod => ({ default: mod.AnimatedIcon })), {
-  ssr: true,
-});
+import { IntegrationsDock } from "@/components/integrations-dock";
+import { HeroSection } from "@/components/hero-section";
 
 export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
@@ -39,29 +24,29 @@ export default function Home() {
   const [mobileMenuClosing, setMobileMenuClosing] = useState(false);
   const mobileHeaderRef = useRef<HTMLElement>(null);
   
-  // Close menu when clicking outside - memoized handler
-  const handleClickOutside = useCallback((event: MouseEvent) => {
-    if (mobileMenuOpen && mobileHeaderRef.current) {
-      const target = event.target as Node;
-      // Don't close if clicking inside the header/menu
-      if (mobileHeaderRef.current.contains(target)) {
-        return;
-      }
-      // Don't close if clicking on a dropdown menu (like language selector)
-      const dropdownMenu = (target as Element).closest('[data-radix-menu-content]');
-      if (dropdownMenu) {
-        return;
-      }
-      // Close menu if clicking outside
-      setMobileMenuClosing(true);
-      setTimeout(() => {
-        setMobileMenuOpen(false);
-        setMobileMenuClosing(false);
-      }, 200);
-    }
-  }, [mobileMenuOpen]);
-
+  // Close menu when clicking outside
   useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuOpen && mobileHeaderRef.current) {
+        const target = event.target as Node;
+        // Don't close if clicking inside the header/menu
+        if (mobileHeaderRef.current.contains(target)) {
+          return;
+        }
+        // Don't close if clicking on a dropdown menu (like language selector)
+        const dropdownMenu = (target as Element).closest('[data-radix-menu-content]');
+        if (dropdownMenu) {
+          return;
+        }
+        // Close menu if clicking outside
+        setMobileMenuClosing(true);
+        setTimeout(() => {
+          setMobileMenuOpen(false);
+          setMobileMenuClosing(false);
+        }, 200);
+      }
+    };
+
     if (mobileMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
@@ -69,33 +54,8 @@ export default function Home() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [mobileMenuOpen, handleClickOutside]);
-  
-  const handleMenuToggle = useCallback(() => {
-    if (mobileMenuOpen) {
-      setMobileMenuClosing(true);
-      setTimeout(() => {
-        setMobileMenuOpen(false);
-        setMobileMenuClosing(false);
-      }, 200);
-    } else {
-      setMobileMenuOpen(true);
-    }
   }, [mobileMenuOpen]);
-
-  const handleWaitlistClick = useCallback(() => {
-    setWaitlistOpen(true);
-  }, []);
-
-  const handleMobileWaitlistClick = useCallback(() => {
-    setWaitlistOpen(true);
-    setMobileMenuClosing(true);
-    setTimeout(() => {
-      setMobileMenuOpen(false);
-      setMobileMenuClosing(false);
-    }, 200);
-  }, []);
-
+  
   const renderHeader = (isMobile: boolean) => (
     <header 
       ref={isMobile ? mobileHeaderRef : null}
@@ -120,7 +80,7 @@ export default function Home() {
           <ThemeToggle />
           <Button 
             className="group relative overflow-hidden bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9"
-            onClick={handleWaitlistClick}
+            onClick={() => setWaitlistOpen(true)}
           >
             <span className="relative inline-block overflow-hidden">
               <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
@@ -136,7 +96,17 @@ export default function Home() {
         {/* Mobile navigation */}
         <div className="flex md:hidden items-center">
           <button
-            onClick={handleMenuToggle}
+            onClick={() => {
+              if (mobileMenuOpen) {
+                setMobileMenuClosing(true);
+                setTimeout(() => {
+                  setMobileMenuOpen(false);
+                  setMobileMenuClosing(false);
+                }, 200);
+              } else {
+                setMobileMenuOpen(true);
+              }
+            }}
             className="relative flex items-center justify-center h-9 w-9 text-background hover:bg-background/10 rounded-md transition-colors"
             aria-label="Toggle menu"
           >
@@ -177,7 +147,14 @@ export default function Home() {
             <Separator className="bg-background/20" />
               <Button 
                 className="group relative overflow-hidden bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9 w-full"
-                onClick={handleMobileWaitlistClick}
+                onClick={() => {
+                  setWaitlistOpen(true);
+                  setMobileMenuClosing(true);
+                  setTimeout(() => {
+                    setMobileMenuOpen(false);
+                    setMobileMenuClosing(false);
+                  }, 200);
+                }}
               >
               <span className="relative inline-block overflow-hidden">
                 <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
@@ -203,46 +180,7 @@ export default function Home() {
       {renderHeader(false)}
 
       {/* Hero Section */}
-      <section className="relative overflow-hidden bg-background py-24 sm:py-32">
-        {/* Floating decorative elements */}
-        <div className="absolute inset-0 pointer-events-none z-0">
-          {/* Left side elements - 3 elements with different aspect ratios */}
-          <div className="absolute left-4 top-20 w-40 h-32 bg-muted rounded-2xl animate-float-1 hidden md:block" />
-          <div className="absolute left-8 top-64 w-36 h-48 bg-muted rounded-xl animate-float-2 hidden md:block" />
-          <div className="absolute left-12 bottom-32 w-44 h-36 bg-muted rounded-2xl animate-float-3 hidden md:block" />
-          
-          {/* Right side elements - 3 elements with different aspect ratios */}
-          <div className="absolute right-4 top-32 w-48 h-40 bg-muted rounded-2xl animate-float-4 hidden md:block" />
-          <div className="absolute right-8 top-80 w-32 h-44 bg-muted rounded-xl animate-float-5 hidden md:block" />
-          <div className="absolute right-12 bottom-40 w-40 h-32 bg-muted rounded-2xl animate-float-6 hidden md:block" />
-        </div>
-        
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="mx-auto max-w-3xl text-center">
-            <h1 className="text-4xl font-medium tracking-tight sm:text-6xl lg:text-7xl">
-              AI-powered talent discovery for modern companies
-            </h1>
-            <p className="mt-6 text-lg leading-8 text-muted-foreground sm:text-xl">
-              Define the person you need, not just the role. Our AI-powered platform understands context, culture fit, and what truly matters for your team.
-            </p>
-            <div className="mt-10 flex items-center justify-center gap-x-6">
-              <Button size="lg" variant="outline" asChild className="group relative overflow-hidden">
-                <Link href="#features-list">
-                  <span className="relative inline-block overflow-hidden">
-                    <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
-                      Learn more
-                    </span>
-                    <span className="absolute inset-0 block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -translate-y-full group-hover:translate-y-0">
-                      Learn more
-                    </span>
-                  </span>
-                </Link>
-              </Button>
-              <WaitlistTrigger size="lg" onClick={handleWaitlistClick} showIcon={false} />
-            </div>
-          </div>
-        </div>
-      </section>
+      <HeroSection onWaitlistClick={() => setWaitlistOpen(true)} />
 
       {/* Logo Ticker */}
       <LogoTicker />
@@ -271,13 +209,13 @@ export default function Home() {
                 Placeholder description text. This is where the feature description will go. 
                 Placeholder description text. This is where the feature description will go.
               </p>
-              <WaitlistTrigger variant="link" onClick={handleWaitlistClick} />
+              <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
             <div className="w-full h-96 bg-muted rounded-2xl" />
           </div>
 
           {/* Feature 2 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
                 Placeholder Title 2
@@ -286,7 +224,22 @@ export default function Home() {
                 Placeholder description text. This is where the feature description will go. 
                 Placeholder description text. This is where the feature description will go.
               </p>
-              <WaitlistTrigger variant="link" onClick={handleWaitlistClick} />
+              <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
+            </div>
+            <div className="w-full h-96 bg-muted rounded-2xl" />
+          </div>
+
+          {/* Feature 3 */}
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+            <div>
+              <h2 className="text-3xl font-medium tracking-tight mb-4">
+                Placeholder Title 3
+              </h2>
+              <p className="text-lg text-muted-foreground leading-8 mb-6">
+                Placeholder description text. This is where the feature description will go. 
+                Placeholder description text. This is where the feature description will go.
+              </p>
+              <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
             <div className="w-full h-96 bg-muted rounded-2xl" />
           </div>
