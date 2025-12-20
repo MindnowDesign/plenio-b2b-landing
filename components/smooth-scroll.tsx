@@ -1,9 +1,12 @@
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useRef } from "react";
 import Lenis from "lenis";
 
 export function SmoothScroll({ children }: { children: React.ReactNode }) {
+  const lenisRef = useRef<Lenis | null>(null);
+  const rafIdRef = useRef<number | null>(null);
+
   useEffect(() => {
     const lenis = new Lenis({
       duration: 1.2,
@@ -16,24 +19,28 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
       infinite: false,
     });
 
+    lenisRef.current = lenis;
+
     function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
+      if (lenisRef.current) {
+        lenisRef.current.raf(time);
+        rafIdRef.current = requestAnimationFrame(raf);
+      }
     }
 
-    requestAnimationFrame(raf);
+    rafIdRef.current = requestAnimationFrame(raf);
 
     // Handle anchor links
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
       const anchor = target.closest("a[href^='#']");
-      if (anchor) {
+      if (anchor && lenisRef.current) {
         const href = anchor.getAttribute("href");
         if (href && href !== "#") {
           e.preventDefault();
           const element = document.querySelector(href) as HTMLElement;
           if (element) {
-            lenis.scrollTo(element, { offset: -80 });
+            lenisRef.current.scrollTo(element, { offset: -80 });
           }
         }
       }
@@ -42,7 +49,14 @@ export function SmoothScroll({ children }: { children: React.ReactNode }) {
     window.addEventListener("click", handleClick);
 
     return () => {
-      lenis.destroy();
+      if (rafIdRef.current !== null) {
+        cancelAnimationFrame(rafIdRef.current);
+        rafIdRef.current = null;
+      }
+      if (lenisRef.current) {
+        lenisRef.current.destroy();
+        lenisRef.current = null;
+      }
       window.removeEventListener("click", handleClick);
     };
   }, []);

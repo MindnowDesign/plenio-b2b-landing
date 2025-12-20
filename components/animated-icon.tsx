@@ -16,6 +16,8 @@ interface AnimatedIconProps {
 export function AnimatedIcon({ children, delay = 0 }: AnimatedIconProps) {
   const iconRef = useRef<HTMLDivElement>(null);
   const svgRef = useRef<SVGSVGElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -55,6 +57,13 @@ export function AnimatedIcon({ children, delay = 0 }: AnimatedIconProps) {
       delay,
     });
 
+    timelineRef.current = tl;
+    
+    // Store the ScrollTrigger instance from the timeline
+    if (tl.scrollTrigger) {
+      scrollTriggerRef.current = tl.scrollTrigger;
+    }
+
     paths.forEach((path) => {
       const element = path as SVGPathElement;
       const length = element.getTotalLength?.() || 0;
@@ -84,7 +93,18 @@ export function AnimatedIcon({ children, delay = 0 }: AnimatedIconProps) {
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => {
+      // Cleanup: kill timeline and ScrollTrigger
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
+      if (scrollTriggerRef.current) {
+        scrollTriggerRef.current.kill();
+        scrollTriggerRef.current = null;
+      }
+      // Fallback: kill all ScrollTriggers associated with this component
+      const triggers = ScrollTrigger.getAll();
+      triggers.forEach((trigger) => {
         if (trigger.vars?.trigger === iconRef.current) {
           trigger.kill();
         }

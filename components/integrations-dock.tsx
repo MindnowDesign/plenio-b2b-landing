@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback, memo } from "react";
 import Image from "next/image";
 
 interface Integration {
@@ -19,9 +19,13 @@ const integrations: Integration[] = [
   { name: "Workday", icon: "/integrations/workday.svg" },
 ];
 
-export function IntegrationsDock() {
+export const IntegrationsDock = memo(function IntegrationsDock() {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
+
+  const handleImageError = useCallback((index: number) => {
+    setImageErrors((prev) => new Set(prev).add(index));
+  }, []);
 
   return (
     <div className="grid grid-cols-4 md:flex md:flex-row items-center justify-center gap-x-4 gap-y-4 sm:gap-x-5 sm:gap-y-5 md:gap-5 mb-4 max-w-[400px] mx-auto md:max-w-none">
@@ -71,7 +75,7 @@ export function IntegrationsDock() {
                 width={80}
                 height={80}
                 className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain"
-                onError={() => setImageErrors((prev) => new Set(prev).add(index))}
+                onError={() => handleImageError(index)}
                 unoptimized
               />
             )}
@@ -80,5 +84,5 @@ export function IntegrationsDock() {
       })}
     </div>
   );
-}
+});
 

@@ -1,5 +1,6 @@
 "use client";
 
+import { useMemo, memo } from "react";
 import Image from "next/image";
 
 interface Logo {
@@ -30,9 +31,9 @@ const defaultLogos: Logo[] = [
   { src: "/Ticker/logo-ticker-13.svg", alt: "Partner 13", width: 120, height: 40 },
 ];
 
-export function LogoTicker({ logos = defaultLogos }: LogoTickerProps) {
-  // Duplicate logos multiple times for seamless infinite loop
-  const duplicatedLogos = [...logos, ...logos, ...logos];
+export const LogoTicker = memo(function LogoTicker({ logos = defaultLogos }: LogoTickerProps) {
+  // Duplicate logos multiple times for seamless infinite loop - memoized
+  const duplicatedLogos = useMemo(() => [...logos, ...logos, ...logos], [logos]);
 
   return (
     <section className="relative overflow-hidden bg-background py-8">
@@ -61,5 +62,5 @@ export function LogoTicker({ logos = defaultLogos }: LogoTickerProps) {
       </div>
     </section>
   );
-}
+});
 

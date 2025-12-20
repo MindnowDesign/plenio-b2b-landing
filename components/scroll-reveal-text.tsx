@@ -17,6 +17,8 @@ interface ScrollRevealTextProps {
 export function ScrollRevealText({ children, className = "", delay = 0 }: ScrollRevealTextProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const textRef = useRef<HTMLDivElement>(null);
+  const timelineRef = useRef<gsap.core.Timeline | null>(null);
+  const scrollTriggerRef = useRef<ScrollTrigger | null>(null);
 
   useEffect(() => {
     if (typeof window === "undefined") return;
@@ -64,6 +66,13 @@ export function ScrollRevealText({ children, className = "", delay = 0 }: Scroll
       delay,
     });
 
+    timelineRef.current = tl;
+    
+    // Store the ScrollTrigger instance from the timeline
+    if (tl.scrollTrigger) {
+      scrollTriggerRef.current = tl.scrollTrigger;
+    }
+
     lineSpans.forEach((span, index) => {
       tl.to(
         span,
@@ -79,7 +88,18 @@ export function ScrollRevealText({ children, className = "", delay = 0 }: Scroll
     });
 
     return () => {
-      ScrollTrigger.getAll().forEach((trigger) => {
+      // Cleanup: kill timeline and ScrollTrigger
+      if (timelineRef.current) {
+        timelineRef.current.kill();
+        timelineRef.current = null;
+      }
+      if (scrollTriggerRef.current) {
+        scrollTriggerRef.current.kill();
+        scrollTriggerRef.current = null;
+      }
+      // Fallback: kill all ScrollTriggers associated with this component
+      const triggers = ScrollTrigger.getAll();
+      triggers.forEach((trigger) => {
         if (trigger.vars?.trigger === containerRef.current) {
           trigger.kill();
         }

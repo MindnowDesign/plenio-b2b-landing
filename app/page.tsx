@@ -1,6 +1,7 @@
 "use client"
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import dynamic from "next/dynamic";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
@@ -9,13 +10,28 @@ import { ArrowRight, CheckCircle2, Zap, Shield, TrendingUp, Users, BarChart3, Fi
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { LogoTicker } from "@/components/logo-ticker";
-import { AnimatedIcon } from "@/components/animated-icon";
-import { ScrollRevealText } from "@/components/scroll-reveal-text";
 import { LanguageSelector } from "@/components/language-selector";
 import { WaitlistDialog } from "@/components/waitlist-dialog";
 import { WaitlistTrigger } from "@/components/waitlist-trigger";
-import { IntegrationsDock } from "@/components/integrations-dock";
+
+// Lazy load heavy components
+const LogoTicker = dynamic(() => import("@/components/logo-ticker").then(mod => ({ default: mod.LogoTicker })), {
+  ssr: true,
+  loading: () => <div className="h-24" />,
+});
+
+const IntegrationsDock = dynamic(() => import("@/components/integrations-dock").then(mod => ({ default: mod.IntegrationsDock })), {
+  ssr: true,
+  loading: () => <div className="h-32" />,
+});
+
+const ScrollRevealText = dynamic(() => import("@/components/scroll-reveal-text").then(mod => ({ default: mod.ScrollRevealText })), {
+  ssr: true,
+});
+
+const AnimatedIcon = dynamic(() => import("@/components/animated-icon").then(mod => ({ default: mod.AnimatedIcon })), {
+  ssr: true,
+});
 
 export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
@@ -23,29 +39,29 @@ export default function Home() {
   const [mobileMenuClosing, setMobileMenuClosing] = useState(false);
   const mobileHeaderRef = useRef<HTMLElement>(null);
   
-  // Close menu when clicking outside
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (mobileMenuOpen && mobileHeaderRef.current) {
-        const target = event.target as Node;
-        // Don't close if clicking inside the header/menu
-        if (mobileHeaderRef.current.contains(target)) {
-          return;
-        }
-        // Don't close if clicking on a dropdown menu (like language selector)
-        const dropdownMenu = (target as Element).closest('[data-radix-menu-content]');
-        if (dropdownMenu) {
-          return;
-        }
-        // Close menu if clicking outside
-        setMobileMenuClosing(true);
-        setTimeout(() => {
-          setMobileMenuOpen(false);
-          setMobileMenuClosing(false);
-        }, 200);
+  // Close menu when clicking outside - memoized handler
+  const handleClickOutside = useCallback((event: MouseEvent) => {
+    if (mobileMenuOpen && mobileHeaderRef.current) {
+      const target = event.target as Node;
+      // Don't close if clicking inside the header/menu
+      if (mobileHeaderRef.current.contains(target)) {
+        return;
       }
-    };
+      // Don't close if clicking on a dropdown menu (like language selector)
+      const dropdownMenu = (target as Element).closest('[data-radix-menu-content]');
+      if (dropdownMenu) {
+        return;
+      }
+      // Close menu if clicking outside
+      setMobileMenuClosing(true);
+      setTimeout(() => {
+        setMobileMenuOpen(false);
+        setMobileMenuClosing(false);
+      }, 200);
+    }
+  }, [mobileMenuOpen]);
 
+  useEffect(() => {
     if (mobileMenuOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     }
@@ -53,8 +69,33 @@ export default function Home() {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [mobileMenuOpen]);
+  }, [mobileMenuOpen, handleClickOutside]);
   
+  const handleMenuToggle = useCallback(() => {
+    if (mobileMenuOpen) {
+      setMobileMenuClosing(true);
+      setTimeout(() => {
+        setMobileMenuOpen(false);
+        setMobileMenuClosing(false);
+      }, 200);
+    } else {
+      setMobileMenuOpen(true);
+    }
+  }, [mobileMenuOpen]);
+
+  const handleWaitlistClick = useCallback(() => {
+    setWaitlistOpen(true);
+  }, []);
+
+  const handleMobileWaitlistClick = useCallback(() => {
+    setWaitlistOpen(true);
+    setMobileMenuClosing(true);
+    setTimeout(() => {
+      setMobileMenuOpen(false);
+      setMobileMenuClosing(false);
+    }, 200);
+  }, []);
+
   const renderHeader = (isMobile: boolean) => (
     <header 
       ref={isMobile ? mobileHeaderRef : null}
@@ -79,7 +120,7 @@ export default function Home() {
           <ThemeToggle />
           <Button 
             className="group relative overflow-hidden bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9"
-            onClick={() => setWaitlistOpen(true)}
+            onClick={handleWaitlistClick}
           >
             <span className="relative inline-block overflow-hidden">
               <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
@@ -95,17 +136,7 @@ export default function Home() {
         {/* Mobile navigation */}
         <div className="flex md:hidden items-center">
           <button
-            onClick={() => {
-              if (mobileMenuOpen) {
-                setMobileMenuClosing(true);
-                setTimeout(() => {
-                  setMobileMenuOpen(false);
-                  setMobileMenuClosing(false);
-                }, 200);
-              } else {
-                setMobileMenuOpen(true);
-              }
-            }}
+            onClick={handleMenuToggle}
             className="relative flex items-center justify-center h-9 w-9 text-background hover:bg-background/10 rounded-md transition-colors"
             aria-label="Toggle menu"
           >
@@ -146,14 +177,7 @@ export default function Home() {
             <Separator className="bg-background/20" />
               <Button 
                 className="group relative overflow-hidden bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9 w-full"
-                onClick={() => {
-                  setWaitlistOpen(true);
-                  setMobileMenuClosing(true);
-                  setTimeout(() => {
-                    setMobileMenuOpen(false);
-                    setMobileMenuClosing(false);
-                  }, 200);
-                }}
+                onClick={handleMobileWaitlistClick}
               >
               <span className="relative inline-block overflow-hidden">
                 <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
@@ -214,7 +238,7 @@ export default function Home() {
                   </span>
                 </Link>
               </Button>
-              <WaitlistTrigger size="lg" onClick={() => setWaitlistOpen(true)} showIcon={false} />
+              <WaitlistTrigger size="lg" onClick={handleWaitlistClick} showIcon={false} />
             </div>
           </div>
         </div>
@@ -247,7 +271,7 @@ export default function Home() {
                 Placeholder description text. This is where the feature description will go. 
                 Placeholder description text. This is where the feature description will go.
               </p>
-              <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
+              <WaitlistTrigger variant="link" onClick={handleWaitlistClick} />
             </div>
             <div className="w-full h-96 bg-muted rounded-2xl" />
           </div>
@@ -262,7 +286,7 @@ export default function Home() {
                 Placeholder description text. This is where the feature description will go. 
                 Placeholder description text. This is where the feature description will go.
               </p>
-              <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
+              <WaitlistTrigger variant="link" onClick={handleWaitlistClick} />
             </div>
             <div className="w-full h-96 bg-muted rounded-2xl" />
           </div>
