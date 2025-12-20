@@ -1,11 +1,11 @@
 "use client"
 
-import { useState } from "react";
+import { useState, useEffect, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
-import { ArrowRight, CheckCircle2, Zap, Shield, TrendingUp, Users, BarChart3, Filter, UserSearch, Clock, CreditCard, Sparkles, LayoutDashboard, Linkedin, Instagram } from "lucide-react";
+import { ArrowRight, CheckCircle2, Zap, Shield, TrendingUp, Users, BarChart3, Filter, UserSearch, Clock, CreditCard, Sparkles, LayoutDashboard, Linkedin, Instagram, Menu, X } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -19,34 +19,142 @@ import { IntegrationsDock } from "@/components/integrations-dock";
 
 export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
-  return (
-    <>
-      <WaitlistDialog open={waitlistOpen} onOpenChange={setWaitlistOpen} />
-      {/* Main content wrapper */}
-      <main className="main-content-wrapper">
-      {/* Navigation */}
-      <header className="sticky top-0 z-50 pt-4 pb-4">
-        <nav className="mx-auto flex max-w-xl items-center justify-between rounded-2xl bg-foreground px-6 py-3 text-background outline-none dark:bg-foreground dark:text-background">
-          {/* Logo */}
-          <Link href="/" className="flex items-center">
-            <Image
-              src="/Logo/plenio-logo.svg"
-              alt="Plenio"
-              width={111}
-              height={24}
-              className="h-6 w-auto dark:invert"
-              priority
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [mobileMenuClosing, setMobileMenuClosing] = useState(false);
+  const mobileHeaderRef = useRef<HTMLElement>(null);
+  
+  // Close menu when clicking outside
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (mobileMenuOpen && mobileHeaderRef.current) {
+        const target = event.target as Node;
+        // Don't close if clicking inside the header/menu
+        if (mobileHeaderRef.current.contains(target)) {
+          return;
+        }
+        // Don't close if clicking on a dropdown menu (like language selector)
+        const dropdownMenu = (target as Element).closest('[data-radix-menu-content]');
+        if (dropdownMenu) {
+          return;
+        }
+        // Close menu if clicking outside
+        setMobileMenuClosing(true);
+        setTimeout(() => {
+          setMobileMenuOpen(false);
+          setMobileMenuClosing(false);
+        }, 200);
+      }
+    };
+
+    if (mobileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    }
+
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [mobileMenuOpen]);
+  
+  const renderHeader = (isMobile: boolean) => (
+    <header 
+      ref={isMobile ? mobileHeaderRef : null}
+      className={`sticky ${isMobile ? 'bottom-0' : 'top-0'} z-50 pt-4 pb-4 px-4 ${isMobile ? 'md:hidden' : 'hidden md:block'}`}
+    >
+      <nav className="mx-auto flex max-w-xl items-center justify-between rounded-2xl bg-foreground px-4 md:px-6 py-3 text-background outline-none dark:bg-foreground dark:text-background">
+        {/* Logo */}
+        <Link href="/" className="flex items-center">
+          <Image
+            src="/Logo/plenio-logo.svg"
+            alt="Plenio"
+            width={111}
+            height={24}
+            className="h-6 w-auto dark:invert"
+            priority
+          />
+        </Link>
+        
+        {/* Desktop navigation */}
+        <div className="hidden md:flex items-center gap-3">
+          <LanguageSelector />
+          <ThemeToggle />
+          <Button 
+            className="group relative overflow-hidden bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9"
+            onClick={() => setWaitlistOpen(true)}
+          >
+            <span className="relative inline-block overflow-hidden">
+              <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
+                Join waitlist
+              </span>
+              <span className="absolute inset-0 block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -translate-y-full group-hover:translate-y-0">
+                Join waitlist
+              </span>
+            </span>
+          </Button>
+        </div>
+
+        {/* Mobile navigation */}
+        <div className="flex md:hidden items-center">
+          <button
+            onClick={() => {
+              if (mobileMenuOpen) {
+                setMobileMenuClosing(true);
+                setTimeout(() => {
+                  setMobileMenuOpen(false);
+                  setMobileMenuClosing(false);
+                }, 200);
+              } else {
+                setMobileMenuOpen(true);
+              }
+            }}
+            className="relative flex items-center justify-center h-9 w-9 text-background hover:bg-background/10 rounded-md transition-colors"
+            aria-label="Toggle menu"
+          >
+            <Menu 
+              className={`h-5 w-5 absolute transition-all duration-300 ease-in-out ${
+                mobileMenuOpen ? 'opacity-0 rotate-90 scale-0' : 'opacity-100 rotate-0 scale-100'
+              }`}
             />
-          </Link>
-          
-          {/* Right side navigation */}
-          <div className="flex items-center gap-3">
-            <LanguageSelector />
-            <ThemeToggle />
-            <Button 
-              className="group relative overflow-hidden bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9"
-              onClick={() => setWaitlistOpen(true)}
-            >
+            <X 
+              className={`h-5 w-5 absolute transition-all duration-300 ease-in-out ${
+                mobileMenuOpen ? 'opacity-100 rotate-0 scale-100' : 'opacity-0 -rotate-90 scale-0'
+              }`}
+            />
+          </button>
+        </div>
+      </nav>
+
+      {/* Mobile menu dropdown */}
+      {mobileMenuOpen && (
+        <div className={`absolute ${isMobile ? 'bottom-full mb-0' : 'top-full mt-2'} left-4 right-4 rounded-2xl bg-foreground dark:bg-foreground border border-background/10 shadow-lg z-50 md:hidden ${
+          mobileMenuClosing 
+            ? 'animate-out slide-out-to-bottom-2 fade-out-0 duration-200' 
+            : 'animate-in slide-in-from-bottom-2 fade-in-0 duration-200'
+        }`}>
+          <div className="flex flex-col gap-4 p-6">
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-background">Language</span>
+              <div className="[&_button]:h-11 [&_button]:px-4">
+                <LanguageSelector />
+              </div>
+            </div>
+            <div className="flex items-center justify-between">
+              <span className="text-sm font-medium text-background">Theme</span>
+              <div className="[&_button]:h-11 [&_button]:w-11">
+                <ThemeToggle />
+              </div>
+            </div>
+            <Separator className="bg-background/20" />
+              <Button 
+                className="group relative overflow-hidden bg-background text-foreground hover:bg-background/90 dark:bg-background dark:text-foreground dark:hover:bg-background/90 h-9 w-full"
+                onClick={() => {
+                  setWaitlistOpen(true);
+                  setMobileMenuClosing(true);
+                  setTimeout(() => {
+                    setMobileMenuOpen(false);
+                    setMobileMenuClosing(false);
+                  }, 200);
+                }}
+              >
               <span className="relative inline-block overflow-hidden">
                 <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
                   Join waitlist
@@ -57,8 +165,18 @@ export default function Home() {
               </span>
             </Button>
           </div>
-        </nav>
-      </header>
+        </div>
+      )}
+    </header>
+  );
+
+  return (
+    <>
+      <WaitlistDialog open={waitlistOpen} onOpenChange={setWaitlistOpen} />
+      {/* Main content wrapper */}
+      <main className="main-content-wrapper">
+      {/* Desktop Navigation - top */}
+      {renderHeader(false)}
 
       {/* Hero Section */}
       <section className="relative overflow-hidden bg-background py-24 sm:py-32">
@@ -182,7 +300,7 @@ export default function Home() {
               Our platform combines AI-powered matching with deep insights to help you find the right talent faster and more efficiently.
             </p>
           </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 lg:gap-20 mt-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12 lg:gap-20 mt-4">
             {/* First Row */}
             <div className="flex flex-col gap-6">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
@@ -190,7 +308,7 @@ export default function Home() {
                   <Filter className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
-              <p className="text-base leading-7">
+              <p className="text-lg md:text-base leading-7">
                 Get only qualified matches,{" "}
                 <span className="text-muted-foreground">no more endless filtering through irrelevant profiles.</span>
               </p>
@@ -201,7 +319,7 @@ export default function Home() {
                   <UserSearch className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
-              <p className="text-base leading-7">
+              <p className="text-lg md:text-base leading-7">
                 Go beyond hard skills,{" "}
                 <span className="text-muted-foreground">understand the person behind every CV.</span>
               </p>
@@ -212,7 +330,7 @@ export default function Home() {
                   <Clock className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
-              <p className="text-base leading-7">
+              <p className="text-lg md:text-base leading-7">
                 Cut hiring time and costs,{" "}
                 <span className="text-muted-foreground">streamline your recruitment process effortlessly.</span>
               </p>
@@ -224,7 +342,7 @@ export default function Home() {
                   <CreditCard className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
-              <p className="text-base leading-7">
+              <p className="text-lg md:text-base leading-7">
                 Hire top talent at fair market rates,{" "}
                 <span className="text-muted-foreground">with full pricing transparency.</span>
               </p>
@@ -235,7 +353,7 @@ export default function Home() {
                   <Sparkles className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
-              <p className="text-base leading-7">
+              <p className="text-lg md:text-base leading-7">
                 Find new candidates every day,{" "}
                 <span className="text-muted-foreground">powered by Plenio's AI matching engine.</span>
               </p>
@@ -246,7 +364,7 @@ export default function Home() {
                   <LayoutDashboard className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
-              <p className="text-base leading-7">
+              <p className="text-lg md:text-base leading-7">
                 Access smart insights,{" "}
                 <span className="text-muted-foreground">and manage your entire hiring flow in one dashboard.</span>
               </p>
@@ -310,13 +428,15 @@ export default function Home() {
           </div>
         </div>
       </section>
+      {/* Mobile Navigation - bottom */}
+      {renderHeader(true)}
       </main>
 
       {/* Footer */}
       <footer className="footer-sticky-reveal bg-foreground dark:bg-foreground rounded-t-2xl sm:rounded-t-3xl">
           <div className="container mx-auto px-4 sm:px-6 lg:px-8">
             {/* Large Logo Section */}
-            <div className="flex justify-center py-16 sm:py-20">
+            <div className="flex justify-center py-8 sm:py-20">
               <Image
                 src="/Logo/plenio-logo.svg"
                 alt="Plenio"
@@ -331,9 +451,9 @@ export default function Home() {
             <Separator className="bg-border/20 dark:bg-border/20" />
 
             {/* Footer Content */}
-            <div className="flex flex-col gap-8 py-12 items-end sm:flex-row sm:items-end sm:justify-between">
+            <div className="flex flex-col gap-16 sm:gap-8 py-12 items-start sm:items-end sm:flex-row sm:justify-between">
               {/* Left Side - Links in two columns */}
-              <div className="flex flex-col gap-8 sm:flex-row sm:gap-24">
+              <div className="flex flex-col gap-8 sm:flex-row sm:gap-24 w-full sm:w-auto items-start">
                 {/* First column of links */}
                 <div className="flex flex-col gap-4">
                   <Link 
@@ -390,7 +510,7 @@ export default function Home() {
               </div>
 
               {/* Right Side - Status badge and copyright */}
-              <div className="flex flex-col gap-8 items-end">
+              <div className="flex flex-col gap-8 items-center sm:items-end w-full sm:w-auto">
                 {/* In progress badge */}
                 <div className="bg-background/10 dark:bg-background/10 flex gap-2 items-center px-3 py-1 rounded-full">
                   <div className="relative shrink-0 w-2 h-2">
@@ -403,7 +523,7 @@ export default function Home() {
                 </div>
 
                 {/* Copyright and Address */}
-                <div className="flex flex-col gap-2 text-base leading-6 text-background/80 dark:text-background/80 opacity-40 items-end">
+                <div className="flex flex-col gap-2 text-base leading-6 text-background/80 dark:text-background/80 opacity-40 items-center sm:items-end">
                   <p>© {new Date().getFullYear()} Plenio</p>
                   <p>Weite Gasse 13, 5400 Baden, Switzerland</p>
                 </div>

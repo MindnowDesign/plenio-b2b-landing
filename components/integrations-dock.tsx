@@ -24,7 +24,7 @@ export function IntegrationsDock() {
   const [imageErrors, setImageErrors] = useState<Set<number>>(new Set());
 
   return (
-    <div className="flex items-center justify-center gap-3 sm:gap-4 md:gap-5 mb-4">
+    <div className="grid grid-cols-4 md:flex md:flex-row items-center justify-center gap-x-4 gap-y-4 sm:gap-x-5 sm:gap-y-5 md:gap-5 mb-4 max-w-[400px] mx-auto md:max-w-none">
       {integrations.map((integration, index) => {
         const isHovered = hoveredIndex === index;
         const distance = hoveredIndex !== null 
@@ -44,7 +44,7 @@ export function IntegrationsDock() {
         return (
           <div
             key={integration.name}
-            className="relative flex flex-col items-center"
+            className="relative flex flex-col items-center justify-center"
             onMouseEnter={() => setHoveredIndex(index)}
             onMouseLeave={() => setHoveredIndex(null)}
             style={{
