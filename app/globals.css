@@ -147,7 +147,7 @@
     transform: translateX(0);
   }
   to {
-    transform: translateX(calc(-100% / 3));
+    transform: translateX(calc(-100% / 4));
   }
 }
 

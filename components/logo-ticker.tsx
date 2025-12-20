@@ -33,7 +33,8 @@ const defaultLogos: Logo[] = [
 
 export const LogoTicker = memo(function LogoTicker({ logos = defaultLogos }: LogoTickerProps) {
   // Duplicate logos multiple times for seamless infinite loop - memoized
-  const duplicatedLogos = useMemo(() => [...logos, ...logos, ...logos], [logos]);
+  // We need at least 2 copies for seamless loop, using 4 for smoother animation
+  const duplicatedLogos = useMemo(() => [...logos, ...logos, ...logos, ...logos], [logos]);
 
   return (
     <section className="relative overflow-hidden bg-background py-8">
@@ -44,21 +45,23 @@ export const LogoTicker = memo(function LogoTicker({ logos = defaultLogos }: Log
           </p>
         </div>
       </div>
-      <div className="flex animate-scroll mt-8">
-        {duplicatedLogos.map((logo, index) => (
-          <div
-            key={index}
-            className="mx-8 flex shrink-0 items-center justify-center transition-all"
-          >
-            <Image
-              src={logo.src}
-              alt={logo.alt}
-              width={logo.width || 120}
-              height={logo.height || 40}
-              className="h-auto max-h-10 w-auto object-contain grayscale opacity-60 brightness-0 dark:brightness-100 dark:opacity-60 hover:opacity-100 hover:grayscale-0 transition-all"
-            />
-          </div>
-        ))}
+      <div className="overflow-hidden">
+        <div className="flex animate-scroll mt-8">
+          {duplicatedLogos.map((logo, index) => (
+            <div
+              key={index}
+              className="mx-8 flex shrink-0 items-center justify-center transition-all"
+            >
+              <Image
+                src={logo.src}
+                alt={logo.alt}
+                width={logo.width || 120}
+                height={logo.height || 40}
+                className="h-auto max-h-10 w-auto object-contain grayscale opacity-60 brightness-0 dark:brightness-100 dark:opacity-60 hover:opacity-100 hover:grayscale-0 transition-all"
+              />
+            </div>
+          ))}
+        </div>
       </div>
     </section>
   );
