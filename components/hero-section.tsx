@@ -80,7 +80,7 @@ export function HeroSection({ onWaitlistClick }: HeroSectionProps) {
                   alt="Plenio"
                   width={60}
                   height={24}
-                  className="h-4 w-auto sm:h-5 sm:w-auto brightness-0 invert dark:brightness-100 dark:invert-0"
+                  className="h-4 w-auto sm:h-5 sm:w-auto brightness-0 invert dark:brightness-0 dark:invert-0"
                   priority
                 />
               </span>
@@ -90,7 +90,7 @@ export function HeroSection({ onWaitlistClick }: HeroSectionProps) {
           <p className="mt-6 text-lg leading-8 text-muted-foreground sm:text-xl">
             Define the person you need, not just the role. Our AI-powered platform understands context, culture fit, and what truly matters for your team.
           </p>
-          <div className="mt-10 flex items-center justify-center gap-x-6">
+          <div className="mt-10 flex items-center justify-center gap-x-4">
             <Button size="lg" variant="outline" asChild className="group relative overflow-hidden">
               <Link href="#features-list">
                 <span className="relative inline-block overflow-hidden">

@@ -37,10 +37,10 @@ export const LogoTicker = memo(function LogoTicker({ logos = defaultLogos }: Log
   const duplicatedLogos = useMemo(() => [...logos, ...logos, ...logos, ...logos], [logos]);
 
   return (
-    <section className="relative overflow-hidden bg-background py-8">
+    <section className="relative overflow-hidden bg-background py-8 mt-8 mb-8">
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-2xl text-center">
-          <p className="mt-4 text-lg text-muted-foreground">
+          <p className="mt-4 text-base text-muted-foreground">
             Trusted by 100+ top Swiss companies
           </p>
         </div>

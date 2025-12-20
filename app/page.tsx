@@ -12,11 +12,13 @@ import { ThemeToggle } from "@/components/theme-toggle";
 import { LogoTicker } from "@/components/logo-ticker";
 import { AnimatedIcon } from "@/components/animated-icon";
 import { ScrollRevealText } from "@/components/scroll-reveal-text";
+import { ScrollRevealCard } from "@/components/scroll-reveal-card";
 import { LanguageSelector } from "@/components/language-selector";
 import { WaitlistDialog } from "@/components/waitlist-dialog";
 import { WaitlistTrigger } from "@/components/waitlist-trigger";
 import { IntegrationsDock } from "@/components/integrations-dock";
 import { HeroSection } from "@/components/hero-section";
+import { ScrollTiltImage } from "@/components/scroll-tilt-image";
 
 export default function Home() {
   const [waitlistOpen, setWaitlistOpen] = useState(false);
@@ -182,6 +184,9 @@ export default function Home() {
       {/* Hero Section */}
       <HeroSection onWaitlistClick={() => setWaitlistOpen(true)} />
 
+      {/* Scroll Tilt Image */}
+      <ScrollTiltImage />
+
       {/* Logo Ticker */}
       <LogoTicker />
 
@@ -200,7 +205,7 @@ export default function Home() {
           </div>
 
           {/* Feature 1 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
+          <ScrollRevealCard className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24" delay={0}>
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
                 Placeholder Title 1
@@ -211,11 +216,11 @@ export default function Home() {
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
-            <div className="w-full h-96 bg-muted rounded-2xl" />
-          </div>
+            <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl" />
+          </ScrollRevealCard>
 
           {/* Feature 2 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
+          <ScrollRevealCard className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24" delay={0.15}>
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
                 Placeholder Title 2
@@ -226,11 +231,11 @@ export default function Home() {
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
-            <div className="w-full h-96 bg-muted rounded-2xl" />
-          </div>
+            <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl" />
+          </ScrollRevealCard>
 
           {/* Feature 3 */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+          <ScrollRevealCard className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center" delay={0.3}>
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
                 Placeholder Title 3
@@ -241,8 +246,8 @@ export default function Home() {
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
-            <div className="w-full h-96 bg-muted rounded-2xl" />
-          </div>
+            <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl" />
+          </ScrollRevealCard>
         </div>
       </section>
 
