@@ -3,6 +3,8 @@
 import { ArrowRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { cn } from "@/lib/utils"
+import { useLanguage } from "@/lib/language-context"
+import { getTranslation } from "@/lib/translations"
 
 interface WaitlistTriggerProps {
   variant?: "default" | "link"
@@ -21,6 +23,9 @@ export function WaitlistTrigger({
   children,
   showIcon = true,
 }: WaitlistTriggerProps) {
+  const { language } = useLanguage();
+  const t = (key: keyof typeof import("@/lib/translations").translations.EN) => getTranslation(language, key);
+  
   if (variant === "link") {
     return (
       <button
@@ -32,7 +37,7 @@ export function WaitlistTrigger({
       >
         {children || (
           <>
-            <span>Join waitlist</span>
+            <span>{t("joinWaitlist")}</span>
             {showIcon && <ArrowRight className="h-4 w-4 transition-transform group-hover:translate-x-1" />}
           </>
         )}
@@ -40,7 +45,7 @@ export function WaitlistTrigger({
     )
   }
 
-  const textContent = children || "Join waitlist"
+  const textContent = children || t("joinWaitlist")
   const hasIcon = showIcon && !children
 
   return (

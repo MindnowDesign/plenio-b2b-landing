@@ -20,8 +20,12 @@ import { IntegrationsDock } from "@/components/integrations-dock";
 import { HeroSection } from "@/components/hero-section";
 import { ScrollTiltImage } from "@/components/scroll-tilt-image";
 import { ParticleLogo } from "@/components/particle-logo";
+import { useLanguage } from "@/lib/language-context";
+import { getTranslation } from "@/lib/translations";
 
 export default function Home() {
+  const { language } = useLanguage();
+  const t = (key: keyof typeof import("@/lib/translations").translations.EN) => getTranslation(language, key);
   const [waitlistOpen, setWaitlistOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileMenuClosing, setMobileMenuClosing] = useState(false);
@@ -87,10 +91,10 @@ export default function Home() {
           >
             <span className="relative inline-block overflow-hidden">
               <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
-                Join waitlist
+                {t("joinWaitlist")}
               </span>
               <span className="absolute inset-0 block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -translate-y-full group-hover:translate-y-0">
-                Join waitlist
+                {t("joinWaitlist")}
               </span>
             </span>
           </Button>
@@ -136,13 +140,13 @@ export default function Home() {
         }`}>
           <div className="flex flex-col gap-4 p-6">
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-background">Language</span>
+              <span className="text-sm font-medium text-background">{t("language")}</span>
               <div className="[&_button]:h-11 [&_button]:px-4">
                 <LanguageSelector />
               </div>
             </div>
             <div className="flex items-center justify-between">
-              <span className="text-sm font-medium text-background">Theme</span>
+              <span className="text-sm font-medium text-background">{t("theme")}</span>
               <div className="[&_button]:h-11 [&_button]:w-11">
                 <ThemeToggle />
               </div>
@@ -161,10 +165,10 @@ export default function Home() {
               >
               <span className="relative inline-block overflow-hidden">
                 <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
-                  Join waitlist
+                  {t("joinWaitlist")}
                 </span>
                 <span className="absolute inset-0 block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -translate-y-full group-hover:translate-y-0">
-                  Join waitlist
+                  {t("joinWaitlist")}
                 </span>
               </span>
             </Button>
@@ -199,11 +203,10 @@ export default function Home() {
           {/* Introduction Text */}
           <div className="mb-24 max-w-4xl">
             <h3 className="text-sm font-medium text-muted-foreground mb-6">
-              Features
+              {t("features")}
             </h3>
             <ScrollRevealText className="text-4xl sm:text-5xl lg:text-6xl font-normal leading-tight">
-              <span className="text-muted-foreground">Plenio</span> is an operating system that brings your brand to life,<br />
-              making it easier for teams and partners to deliver.
+              <span className="text-muted-foreground">Plenio</span> {t("featuresIntro")}
             </ScrollRevealText>
           </div>
 
@@ -211,11 +214,10 @@ export default function Home() {
           <ScrollRevealCard className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24" delay={0}>
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
-                Placeholder Title 1
+                {t("placeholderTitle1")}
               </h2>
               <p className="text-lg text-muted-foreground leading-8 mb-6">
-                Placeholder description text. This is where the feature description will go. 
-                Placeholder description text. This is where the feature description will go.
+                {t("placeholderDescription")}
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
@@ -235,11 +237,10 @@ export default function Home() {
           <ScrollRevealCard className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24" delay={0.15}>
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
-                Placeholder Title 2
+                {t("placeholderTitle2")}
               </h2>
               <p className="text-lg text-muted-foreground leading-8 mb-6">
-                Placeholder description text. This is where the feature description will go. 
-                Placeholder description text. This is where the feature description will go.
+                {t("placeholderDescription")}
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
@@ -259,11 +260,10 @@ export default function Home() {
           <ScrollRevealCard className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center" delay={0.3}>
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
-                Placeholder Title 3
+                {t("placeholderTitle3")}
               </h2>
               <p className="text-lg text-muted-foreground leading-8 mb-6">
-                Placeholder description text. This is where the feature description will go. 
-                Placeholder description text. This is where the feature description will go.
+                {t("placeholderDescription")}
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
@@ -286,10 +286,10 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-4xl text-center mb-16">
             <h2 className="text-3xl font-medium tracking-tight mb-6 sm:text-4xl">
-              Works seamlessly with your existing tools
+              {t("integrationsTitle")}
             </h2>
             <p className="text-lg text-muted-foreground leading-8 sm:text-xl">
-              Plenio integrates with the apps your team already uses, so you can streamline your hiring process without disrupting your workflow.
+              {t("integrationsDescription")}
             </p>
           </div>
           <div className="flex items-center justify-center">
@@ -306,10 +306,10 @@ export default function Home() {
         <div className="container mx-auto px-4">
           <div className="mx-auto max-w-2xl text-center mb-16">
             <h2 className="text-3xl font-medium tracking-tight mb-6 sm:text-4xl">
-              Designed to make hiring smarter
+              {t("featuresTitle")}
             </h2>
             <p className="text-lg text-muted-foreground leading-8 sm:text-xl">
-              Our platform combines AI-powered matching with deep insights to help you find the right talent faster and more efficiently.
+              {t("featuresDescription")}
             </p>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-16 md:gap-12 lg:gap-20 mt-4">
@@ -321,8 +321,8 @@ export default function Home() {
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
-                Get only qualified matches,{" "}
-                <span className="text-muted-foreground">no more endless filtering through irrelevant profiles.</span>
+                {t("feature1")}{" "}
+                <span className="text-muted-foreground">{t("feature1Subtext")}</span>
               </p>
             </div>
             <div className="flex flex-col gap-6">
@@ -332,8 +332,8 @@ export default function Home() {
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
-                Go beyond hard skills,{" "}
-                <span className="text-muted-foreground">understand the person behind every CV.</span>
+                {t("feature2")}{" "}
+                <span className="text-muted-foreground">{t("feature2Subtext")}</span>
               </p>
             </div>
             <div className="flex flex-col gap-6">
@@ -343,8 +343,8 @@ export default function Home() {
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
-                Cut hiring time and costs,{" "}
-                <span className="text-muted-foreground">streamline your recruitment process effortlessly.</span>
+                {t("feature3")}{" "}
+                <span className="text-muted-foreground">{t("feature3Subtext")}</span>
               </p>
             </div>
             {/* Second Row */}
@@ -355,8 +355,8 @@ export default function Home() {
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
-                Hire top talent at fair market rates,{" "}
-                <span className="text-muted-foreground">with full pricing transparency.</span>
+                {t("feature4")}{" "}
+                <span className="text-muted-foreground">{t("feature4Subtext")}</span>
               </p>
             </div>
             <div className="flex flex-col gap-6">
@@ -366,8 +366,8 @@ export default function Home() {
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
-                Find new candidates every day,{" "}
-                <span className="text-muted-foreground">powered by Plenio's AI matching engine.</span>
+                {t("feature5")}{" "}
+                <span className="text-muted-foreground">{t("feature5Subtext")}</span>
               </p>
             </div>
             <div className="flex flex-col gap-6">
@@ -377,8 +377,8 @@ export default function Home() {
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
-                Access smart insights,{" "}
-                <span className="text-muted-foreground">and manage your entire hiring flow in one dashboard.</span>
+                {t("feature6")}{" "}
+                <span className="text-muted-foreground">{t("feature6Subtext")}</span>
               </p>
             </div>
           </div>
@@ -395,10 +395,10 @@ export default function Home() {
             {/* Left side - Title */}
             <div className="flex flex-col">
               <h3 className="text-sm font-medium text-muted-foreground mb-4">
-                FAQ
+                {t("faq")}
               </h3>
               <h2 className="text-3xl font-medium tracking-tight sm:text-4xl">
-                Have questions?<br />We're happy to chat.
+                {t("faqTitle")}<br />{t("faqSubtitle")}
               </h2>
             </div>
             
@@ -406,33 +406,33 @@ export default function Home() {
             <div className="flex flex-col">
               <Accordion type="single" collapsible className="w-full">
                 <AccordionItem value="item-1" className="border-b">
-                  <AccordionTrigger className="text-left text-lg font-normal py-7">What does "brand OS" mean?</AccordionTrigger>
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">{t("faq1Question")}</AccordionTrigger>
                   <AccordionContent className="text-base text-muted-foreground">
-                    While there has been talk of brand operating systems for a while, they've still been static frameworks or ways of thinking that remain hard to implement. We have built a true living platform that is interactive, dynamic and able to power your brand at scale.
+                    {t("faq1Answer")}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-2" className="border-b">
-                  <AccordionTrigger className="text-left text-lg font-normal py-7">How does Plenio bring my brand to life?</AccordionTrigger>
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">{t("faq2Question")}</AccordionTrigger>
                   <AccordionContent className="text-base text-muted-foreground">
-                    Brand is now more than a linear narrative. It's an expanding mosaic of touch-points that needs more than guidelines to power it to be cohesive and effective. Brand leaders can't be everywhere at once, so Plenio translates what's in your head and strategy docs into a living tool to empower partners.
+                    {t("faq2Answer")}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-3" className="border-b">
-                  <AccordionTrigger className="text-left text-lg font-normal py-7">What is the Plenio Early Access Program?</AccordionTrigger>
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">{t("faq3Question")}</AccordionTrigger>
                   <AccordionContent className="text-base text-muted-foreground">
-                    The Plenio Early Access Program is an exclusive opportunity for select partners to test-drive our groundbreaking AI-powered brand management platform before it's publicly available. Early partners gain preferred pricing.
+                    {t("faq3Answer")}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-4" className="border-b">
-                  <AccordionTrigger className="text-left text-lg font-normal py-7">How can I join the Early Access Program?</AccordionTrigger>
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">{t("faq4Question")}</AccordionTrigger>
                   <AccordionContent className="text-base text-muted-foreground">
-                    We're currently working with a limited number of partners who share our vision for reducing the time and space spent between the brand and the end consumer. If you're interested in being considered for the program, please join our waitlist and share some information about your brand challenges.
+                    {t("faq4Answer")}
                   </AccordionContent>
                 </AccordionItem>
                 <AccordionItem value="item-5" className="border-b">
-                  <AccordionTrigger className="text-left text-lg font-normal py-7">How do I get in touch?</AccordionTrigger>
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">{t("faq5Question")}</AccordionTrigger>
                   <AccordionContent className="text-base text-muted-foreground">
-                    Request early access or email us at hello@plenio.com
+                    {t("faq5Answer")}
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>
@@ -476,25 +476,25 @@ export default function Home() {
                     href="#impressum" 
                     className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
-                    Impressum
+                    {t("impressum")}
                   </Link>
                   <Link 
                     href="#privacy" 
                     className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
-                    Privacy Policy
+                    {t("privacyPolicy")}
                   </Link>
                   <Link 
                     href="#terms" 
                     className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
-                    Terms & Conditions
+                    {t("termsConditions")}
                   </Link>
                   <Link 
                     href="#support" 
                     className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
-                    Support
+                    {t("support")}
                   </Link>
                 </div>
 
@@ -506,7 +506,7 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
-                    Linkedin
+                    {t("linkedin")}
                   </Link>
                   <Link 
                     href="https://instagram.com/plenio" 
@@ -514,13 +514,13 @@ export default function Home() {
                     rel="noopener noreferrer"
                     className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
-                    Instagram
+                    {t("instagram")}
                   </Link>
                   <Link 
                     href="https://plenio.com"
                     className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
                   >
-                    Plenio for candidate
+                    {t("plenioForCandidate")}
                   </Link>
                 </div>
               </div>
@@ -534,14 +534,14 @@ export default function Home() {
                     <div className="relative bg-blue-500 rounded-full w-2 h-2"></div>
                   </div>
                   <p className="text-sm leading-6 text-white dark:text-background">
-                    In progress
+                    {t("inProgress")}
                   </p>
                 </div>
 
                 {/* Copyright and Address */}
                 <div className="flex flex-col gap-2 text-base leading-6 text-background/80 dark:text-background/80 opacity-40 items-center sm:items-end">
-                  <p>© {new Date().getFullYear()} Plenio</p>
-                  <p>Weite Gasse 13, 5400 Baden, Switzerland</p>
+                  <p>{t("copyright").replace("{year}", new Date().getFullYear().toString())}</p>
+                  <p>{t("address")}</p>
                 </div>
               </div>
             </div>

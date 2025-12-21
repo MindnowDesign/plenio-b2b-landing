@@ -15,6 +15,8 @@ import { Input } from "@/components/ui/input"
 import { Button } from "@/components/ui/button"
 import { Checkbox } from "@/components/ui/checkbox"
 import { cn } from "@/lib/utils"
+import { useLanguage } from "@/lib/language-context"
+import { getTranslation } from "@/lib/translations"
 
 interface WaitlistDialogProps {
   open: boolean
@@ -22,6 +24,8 @@ interface WaitlistDialogProps {
 }
 
 export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
+  const { language } = useLanguage();
+  const t = (key: keyof typeof import("@/lib/translations").translations.EN) => getTranslation(language, key);
   const [email, setEmail] = useState("")
   const [industry, setIndustry] = useState("")
   const [privacyAccepted, setPrivacyAccepted] = useState(false)
@@ -51,14 +55,14 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
     
     // Validate email
     if (!email.trim()) {
-      newErrors.email = "Email is required"
+      newErrors.email = t("emailRequiredError")
     } else if (!validateEmail(email)) {
-      newErrors.email = "Please enter a valid email address"
+      newErrors.email = t("emailInvalidError")
     }
     
     // Validate privacy checkbox
     if (!privacyAccepted) {
-      newErrors.privacy = "You must accept the privacy policy"
+      newErrors.privacy = t("privacyError")
     }
     
     setErrors(newErrors)
@@ -84,7 +88,7 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
       
       // Don't auto-close, user will click close button
     } catch (error) {
-      setErrors({ email: "Something went wrong. Please try again." })
+      setErrors({ email: t("somethingWentWrong") })
     } finally {
       setIsSubmitting(false)
     }
@@ -119,10 +123,10 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
               </div>
             </div>
             <h3 className="mt-6 text-2xl font-medium animate-in fade-in slide-in-from-bottom-4 duration-500">
-              You're on the list!
+              {t("successTitle")}
             </h3>
             <p className="mt-2 text-muted-foreground text-center animate-in fade-in slide-in-from-bottom-4 duration-700 delay-150">
-              We'll be in touch soon.
+              {t("successMessage")}
             </p>
             <Button
               variant="ghost"
@@ -136,7 +140,7 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
               }}
               className="mt-6"
             >
-              Close
+              {t("close")}
             </Button>
           </div>
         ) : (
@@ -146,10 +150,10 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
               <div className="w-full h-full flex flex-col justify-center">
                 <DialogHeader className="text-left mb-6">
                   <DialogTitle className="text-2xl font-medium mb-2">
-                    Join the waitlist
+                    {t("waitlistDialogTitle")}
                   </DialogTitle>
                   <DialogDescription className="text-base">
-                    Be among the first to experience Plenio's AI-powered talent discovery platform.
+                    {t("waitlistDialogDescription")}
                   </DialogDescription>
                 </DialogHeader>
 
@@ -157,12 +161,12 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
                 {/* Email Field */}
                 <div className="space-y-2">
                   <label htmlFor="email" className="text-sm font-medium cursor-pointer">
-                    Email <span className="text-destructive">*</span>
+                    {t("email")} <span className="text-destructive">{t("emailRequired")}</span>
                   </label>
                   <Input
                     id="email"
                     type="email"
-                    placeholder="your.email@company.com"
+                    placeholder={t("emailPlaceholder")}
                     value={email}
                     onChange={(e) => {
                       setEmail(e.target.value)
@@ -184,12 +188,12 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
                 {/* Industry Field */}
                 <div className="space-y-2">
                   <label htmlFor="industry" className="text-sm font-medium cursor-pointer">
-                    Industry <span className="text-muted-foreground text-xs">(optional)</span>
+                    {t("industry")} <span className="text-muted-foreground text-xs">{t("industryOptional")}</span>
                   </label>
                   <Input
                     id="industry"
                     type="text"
-                    placeholder="e.g., Technology, Healthcare, Finance"
+                    placeholder={t("industryPlaceholder")}
                     value={industry}
                     onChange={(e) => setIndustry(e.target.value)}
                     disabled={isSubmitting}
@@ -219,15 +223,15 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
                       htmlFor="privacy"
                       className="text-sm leading-5 cursor-pointer"
                     >
-                      I accept the{" "}
+                      {t("privacyAccept")}{" "}
                       <a
                         href="#privacy"
                         className="underline hover:no-underline cursor-pointer"
                         onClick={(e) => e.stopPropagation()}
                       >
-                        Privacy Policy
+                        {t("privacyPolicyLink")}
                       </a>{" "}
-                      <span className="text-destructive">*</span>
+                      <span className="text-destructive">{t("privacyRequired")}</span>
                     </label>
                   </div>
                   {errors.privacy && (
@@ -252,7 +256,7 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
                     htmlFor="newsletter"
                     className="text-sm leading-5 cursor-pointer"
                   >
-                    Subscribe to our newsletter for updates and insights
+                    {t("newsletterSubscribe")}
                   </label>
                 </div>
 
@@ -266,10 +270,10 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
                   {isSubmitting ? (
                     <>
                       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
-                      Submitting...
+                      {t("submitting")}
                     </>
                   ) : (
-                    "Join waitlist"
+                    t("joinWaitlist")
                   )}
                 </Button>
                 </form>

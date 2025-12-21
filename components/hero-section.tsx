@@ -5,12 +5,16 @@ import { Button } from "@/components/ui/button";
 import Link from "next/link";
 import Image from "next/image";
 import { WaitlistTrigger } from "@/components/waitlist-trigger";
+import { useLanguage } from "@/lib/language-context";
+import { getTranslation } from "@/lib/translations";
 
 interface HeroSectionProps {
   onWaitlistClick?: () => void;
 }
 
 export function HeroSection({ onWaitlistClick }: HeroSectionProps) {
+  const { language } = useLanguage();
+  const t = (key: keyof typeof import("@/lib/translations").translations.EN) => getTranslation(language, key);
   const [mousePosition, setMousePosition] = useState({ x: 0, y: 0 });
   const [isLogoHovered, setIsLogoHovered] = useState(false);
   const sectionRef = useRef<HTMLElement>(null);
@@ -60,7 +64,7 @@ export function HeroSection({ onWaitlistClick }: HeroSectionProps) {
       <div className="container mx-auto px-4 relative z-10">
         <div className="mx-auto max-w-3xl text-center">
           <h1 className="text-4xl font-medium tracking-tight sm:text-6xl lg:text-7xl">
-            AI-powered
+            {t("heroTitle")}
             <span
               className="inline-flex items-start mx-4"
               onMouseEnter={() => setIsLogoHovered(true)}
@@ -85,20 +89,20 @@ export function HeroSection({ onWaitlistClick }: HeroSectionProps) {
                 />
               </span>
             </span>
-            talent discovery for modern companies
+            {t("heroSubtitle")}
           </h1>
           <p className="mt-6 text-lg leading-8 text-muted-foreground sm:text-xl">
-            Define the person you need, not just the role. Our AI-powered platform understands context, culture fit, and what truly matters for your team.
+            {t("heroDescription")}
           </p>
           <div className="mt-10 flex items-center justify-center gap-x-4">
             <Button size="lg" variant="outline" asChild className="group relative overflow-hidden">
               <Link href="#features-list">
                 <span className="relative inline-block overflow-hidden">
                   <span className="block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] group-hover:translate-y-full">
-                    Learn more
+                    {t("learnMore")}
                   </span>
                   <span className="absolute inset-0 block transition-transform duration-500 ease-[cubic-bezier(0.4,0,0.2,1)] -translate-y-full group-hover:translate-y-0">
-                    Learn more
+                    {t("learnMore")}
                   </span>
                 </span>
               </Link>

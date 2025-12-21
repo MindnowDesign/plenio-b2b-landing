@@ -3,6 +3,7 @@ import { Roboto } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-provider";
 import { SmoothScroll } from "@/components/smooth-scroll";
+import { LanguageProvider } from "@/lib/language-context";
 
 const roboto = Roboto({
   weight: ["300", "400", "500", "700"],
@@ -31,9 +32,11 @@ export default function RootLayout({
           defaultTheme="light"
           enableSystem
         >
-          <SmoothScroll>
-            {children}
-          </SmoothScroll>
+          <LanguageProvider>
+            <SmoothScroll>
+              {children}
+            </SmoothScroll>
+          </LanguageProvider>
         </ThemeProvider>
       </body>
     </html>

@@ -42,7 +42,7 @@ export const IntegrationsDock = memo(function IntegrationsDock() {
         } else if (distance !== null && distance <= 3) {
           // Nearby icons scale slightly (wave effect)
           const proximity = 1 - distance / 3;
-          scale = 1 + (0.1 * proximity);
+          scale = 1 + (0.2 * proximity);
         }
 
         return (
