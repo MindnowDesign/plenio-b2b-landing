@@ -30,7 +30,13 @@ export default function Home() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileMenuClosing, setMobileMenuClosing] = useState(false);
   const mobileHeaderRef = useRef<HTMLElement>(null);
+  const [navAnimated, setNavAnimated] = useState(false);
   
+  // Trigger nav animation on mount (only once)
+  useEffect(() => {
+    setNavAnimated(true);
+  }, []);
+
   // Close menu when clicking outside
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -68,7 +74,7 @@ export default function Home() {
       ref={isMobile ? mobileHeaderRef : null}
       className={`sticky ${isMobile ? 'bottom-0' : 'top-0'} z-50 pt-4 pb-4 px-4 ${isMobile ? 'md:hidden' : 'hidden md:block'}`}
     >
-      <nav className="mx-auto flex max-w-xl items-center justify-between rounded-2xl bg-foreground px-4 md:px-6 py-3 text-background outline-none dark:bg-foreground dark:text-background">
+      <nav className={`mx-auto flex max-w-xl items-center justify-between rounded-2xl bg-foreground px-4 md:px-6 py-3 text-background outline-none dark:bg-foreground dark:text-background ${!isMobile && navAnimated ? 'nav-reveal-animation' : ''}`}>
         {/* Logo */}
         <Link href="/" className="flex items-center">
           <Image
