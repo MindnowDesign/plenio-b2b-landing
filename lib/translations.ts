@@ -15,7 +15,7 @@ export const translations = {
     
     // Features List Section
     features: "Features",
-    featuresIntro: "is an operating system that brings your brand to life,<br />making it easier for teams and partners to deliver.",
+    featuresIntro: "is an operating system that brings your brand to life, making it easier for teams and partners to deliver.",
     placeholderTitle1: "Placeholder Title 1",
     placeholderTitle2: "Placeholder Title 2",
     placeholderTitle3: "Placeholder Title 3",
@@ -104,7 +104,7 @@ export const translations = {
     
     // Features List Section
     features: "Funktionen",
-    featuresIntro: "ist ein Betriebssystem, das Ihre Marke zum Leben erweckt,<br />und es Teams und Partnern erleichtert, Ergebnisse zu liefern.",
+    featuresIntro: "ist ein Betriebssystem, das Ihre Marke zum Leben erweckt, und es Teams und Partnern erleichtert, Ergebnisse zu liefern.",
     placeholderTitle1: "Platzhalter Titel 1",
     placeholderTitle2: "Platzhalter Titel 2",
     placeholderTitle3: "Platzhalter Titel 3",
@@ -193,7 +193,7 @@ export const translations = {
     
     // Features List Section
     features: "Fonctionnalités",
-    featuresIntro: "est un système d'exploitation qui donne vie à votre marque,<br />facilitant la livraison pour les équipes et les partenaires.",
+    featuresIntro: "est un système d'exploitation qui donne vie à votre marque, facilitant la livraison pour les équipes et les partenaires.",
     placeholderTitle1: "Titre d'exemple 1",
     placeholderTitle2: "Titre d'exemple 2",
     placeholderTitle3: "Titre d'exemple 3",
@@ -282,7 +282,7 @@ export const translations = {
     
     // Features List Section
     features: "Funzionalità",
-    featuresIntro: "è un sistema operativo che dà vita al tuo brand,<br />rendendo più facile per team e partner fornire risultati.",
+    featuresIntro: "è un sistema operativo che dà vita al tuo brand, rendendo più facile per team e partner fornire risultati.",
     placeholderTitle1: "Titolo segnaposto 1",
     placeholderTitle2: "Titolo segnaposto 2",
     placeholderTitle3: "Titolo segnaposto 3",
