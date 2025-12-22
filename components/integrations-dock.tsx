@@ -28,7 +28,7 @@ export const IntegrationsDock = memo(function IntegrationsDock() {
   }, []);
 
   return (
-    <div className="grid grid-cols-4 md:flex md:flex-row items-center justify-center gap-x-4 gap-y-4 sm:gap-x-5 sm:gap-y-5 md:gap-5 mb-4 max-w-[400px] mx-auto md:max-w-none">
+    <div className="grid grid-cols-4 md:flex md:flex-row items-center justify-center gap-x-6 gap-y-6 sm:gap-x-5 sm:gap-y-5 md:gap-5 mb-4 max-w-[400px] mx-auto md:max-w-none">
       {integrations.map((integration, index) => {
         const isHovered = hoveredIndex === index;
         const distance = hoveredIndex !== null 
@@ -67,14 +67,14 @@ export const IntegrationsDock = memo(function IntegrationsDock() {
 
             {/* Logo with error handling */}
             {imageErrors.has(index) ? (
-              <div className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 rounded-lg bg-muted-foreground/20" />
+              <div className="h-16 w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 rounded-lg bg-muted-foreground/20" />
             ) : (
               <Image
                 src={integration.icon}
                 alt={integration.name}
                 width={80}
                 height={80}
-                className="h-12 w-12 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain"
+                className="h-16 w-16 sm:h-16 sm:w-16 md:h-20 md:w-20 object-contain"
                 onError={() => handleImageError(index)}
                 unoptimized
               />

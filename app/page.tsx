@@ -475,9 +475,9 @@ export default function Home() {
             {/* Footer Content */}
             <div className="flex flex-col gap-16 sm:gap-8 py-12 items-start sm:items-end sm:flex-row sm:justify-between">
               {/* Left Side - Links in two columns */}
-              <div className="flex flex-col gap-8 sm:flex-row sm:gap-24 w-full sm:w-auto items-start">
+              <div className="flex flex-row gap-8 sm:gap-24 w-full sm:w-auto items-start">
                 {/* First column of links */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 flex-1 sm:flex-none">
                   <Link 
                     href="#impressum" 
                     className="footer-link text-base leading-5 text-background/80 dark:text-background/80 opacity-40 hover:opacity-100 transition-opacity duration-500 ease-[cubic-bezier(0.4,0,0.2,1)]"
@@ -505,7 +505,7 @@ export default function Home() {
                 </div>
 
                 {/* Second column of links */}
-                <div className="flex flex-col gap-4">
+                <div className="flex flex-col gap-4 flex-1 sm:flex-none">
                   <Link 
                     href="https://linkedin.com/company/plenio" 
                     target="_blank" 

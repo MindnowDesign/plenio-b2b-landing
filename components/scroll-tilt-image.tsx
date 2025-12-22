@@ -110,8 +110,68 @@ export function ScrollTiltImage({
 }: ScrollTiltImageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const boxRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState(initialRotation);
+  const [videoAspectRatio, setVideoAspectRatio] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
+  const [containerWidth, setContainerWidth] = useState<number | null>(null);
   const animationStartYRef = useRef<number | null>(null);
+
+  // Detect mobile viewport
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
+
+  // Calculate video aspect ratio when video loads
+  useEffect(() => {
+    const video = videoRef.current;
+    if (!video || !videoSrc) return;
+
+    const handleLoadedMetadata = () => {
+      const videoWidth = video.videoWidth;
+      const videoHeight = video.videoHeight;
+      if (videoWidth > 0 && videoHeight > 0) {
+        setVideoAspectRatio(videoWidth / videoHeight);
+      }
+    };
+
+    video.addEventListener("loadedmetadata", handleLoadedMetadata);
+    
+    // If metadata is already loaded
+    if (video.readyState >= 1) {
+      handleLoadedMetadata();
+    }
+
+    return () => {
+      video.removeEventListener("loadedmetadata", handleLoadedMetadata);
+    };
+  }, [videoSrc]);
+
+  // Update container width on resize (for mobile aspect ratio calculation)
+  useEffect(() => {
+    if (!isMobile || !boxRef.current) return;
+
+    const updateWidth = () => {
+      if (boxRef.current) {
+        setContainerWidth(boxRef.current.offsetWidth);
+      }
+    };
+
+    updateWidth();
+    const resizeObserver = new ResizeObserver(updateWidth);
+    resizeObserver.observe(boxRef.current);
+
+    return () => {
+      resizeObserver.disconnect();
+    };
+  }, [isMobile, videoAspectRatio]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -190,10 +250,13 @@ export function ScrollTiltImage({
           }}
         >
           <div
+            ref={boxRef}
             className={`bg-foreground/10 dark:bg-muted/60 rounded-2xl overflow-hidden ${imageClassName}`}
             style={{
               width,
-              height,
+              height: isMobile && videoAspectRatio && videoSrc && containerWidth
+                ? `${containerWidth / videoAspectRatio}px`
+                : height,
               transform: `perspective(2000px) rotateX(${rotation}deg) translateZ(0)`,
               transformStyle: "preserve-3d",
               backfaceVisibility: "hidden",
@@ -211,7 +274,7 @@ export function ScrollTiltImage({
                 loop={videoLoop}
                 muted={videoMuted}
                 playsInline={videoPlaysInline}
-                className="w-full h-full object-cover"
+                className="w-full h-auto md:h-full object-contain md:object-cover"
                 style={{
                   transform: "translateZ(0)",
                 }}

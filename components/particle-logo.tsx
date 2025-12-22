@@ -51,6 +51,7 @@ export function ParticleLogo({
   const mouseRef = useRef({ x: 0, y: 0 });
   const [isLoaded, setIsLoaded] = useState(false);
   const [isDark, setIsDark] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
   const timeRef = useRef(0);
 
   // Detect dark mode
@@ -67,6 +68,18 @@ export function ParticleLogo({
     });
     
     return () => observer.disconnect();
+  }, []);
+
+  // Detect mobile viewport
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // md breakpoint
+    };
+    
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+    
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   // Store props in refs for animation access
@@ -321,6 +334,23 @@ export function ParticleLogo({
     };
   }, [isLoaded]);
 
+  // On mobile, show SVG logo directly
+  if (isMobile) {
+    return (
+      <div className={`relative ${className}`}>
+        <Image
+          src={src}
+          alt={alt}
+          width={width}
+          height={height}
+          className="h-auto w-full dark:invert"
+          priority
+        />
+      </div>
+    );
+  }
+
+  // On desktop, show particle canvas
   return (
     <div ref={containerRef} className={`relative ${className}`}>
       <canvas
