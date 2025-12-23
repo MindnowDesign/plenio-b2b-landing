@@ -4,6 +4,7 @@ import * as React from "react"
 import { useState, useMemo, useRef, useEffect } from "react"
 import Image from "next/image"
 import { Loader2 } from "lucide-react"
+import { Logo3D } from "@/components/logo-3d"
 import {
   Dialog,
   DialogContent,
@@ -342,25 +343,13 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
               </div>
             </div>
 
-            {/* Right Column - Image */}
+            {/* Right Column - 3D Logo */}
             <div 
               ref={imageContainerRef}
-              className="hidden md:block relative bg-muted overflow-hidden"
+              className="hidden md:block relative bg-background overflow-hidden"
             >
-              <div
-                className="absolute inset-0"
-                style={{
-                  transform: `scale(1.15) translate(${imageTransform.x}px, ${imageTransform.y}px)`,
-                  willChange: "transform",
-                }}
-              >
-                <Image
-                  src="https://i.pinimg.com/1200x/e9/18/92/e918921add60cfbb2e641949055c78c4.jpg"
-                  alt="Join waitlist"
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
+              <div className="absolute inset-0">
+                <Logo3D className="w-full h-full" />
               </div>
             </div>
           </div>

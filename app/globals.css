@@ -158,6 +158,19 @@
   will-change: transform;
 }
 
+@keyframes shimmer {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+.animate-shimmer {
+  animation: shimmer 1.5s ease-in-out infinite;
+}
+
 /* Floating animations for hero decorative elements - slower and calmer */
 @keyframes float-1 {
   0%, 100% {
