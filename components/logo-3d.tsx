@@ -6,14 +6,14 @@ import { useGLTF, OrbitControls, Bounds, Environment, useEnvironment } from "@re
 import { Suspense, useMemo, useState, useEffect, useRef } from "react"
 import * as THREE from "three"
 
-// Component to set clear background color
+// Component to set clear background color - transparent like Formia
 function ClearBackground() {
   const { gl, scene } = useThree()
   
   useEffect(() => {
-    // Set clear color to white/light
-    gl.setClearColor('#ffffff', 1)
-    scene.background = new THREE.Color('#ffffff')
+    // Transparent background for better integration
+    gl.setClearColor('#ffffff', 0)
+    scene.background = null // No background for transparency
   }, [gl, scene])
   
   return null
@@ -65,7 +65,7 @@ function ForceCanvasResize() {
 function LogoModel({ onLoaded }: { onLoaded?: () => void }) {
   const { scene } = useGLTF("/Logo/plenio-logotype.gltf")
   const groupRef = useRef<THREE.Group>(null)
-  const envMap = useEnvironment({ preset: 'city' })
+  const envMap = useEnvironment({ preset: 'studio' })
   
   // Memoize cloned scene to avoid re-cloning on every render
   const clonedScene = useMemo(() => scene.clone(), [scene])
@@ -84,24 +84,26 @@ function LogoModel({ onLoaded }: { onLoaded?: () => void }) {
             : [child.material]
           
           // Replace with MeshPhysicalMaterial for realistic glass effect
+          // Styled similar to Formia.so - dark glass material (vetro nero)
           const newMaterials = materials.map(() => {
             const physicalMaterial = new THREE.MeshPhysicalMaterial({
-              color: 0xffffff, // White/clear for glass
-              roughness: 0.05, // Very low roughness (0.05-0.15 range recommended for glass)
+              color: 0x0a0a0a, // Dark/black glass color
+              roughness: 0.0, // Perfectly smooth surface (0.0 for mirror-like finish)
               metalness: 0.0, // No metalness for glass
-              transmission: 1.0, // Full transmission for clear glass
-              thickness: 0.2, // Reduced thickness for more transparency
+              transmission: 0.85, // High transmission but slightly reduced for darker glass
+              thickness: 0.5, // Medium thickness for realistic glass depth
               ior: 1.5, // Index of refraction (standard glass)
               clearcoat: 1.0, // High clearcoat for glass shine
               clearcoatRoughness: 0.0, // Perfectly smooth clearcoat
-              iridescence: 1.0, // High iridescence for rainbow/prismatic effect
-              iridescenceIOR: 2.2, // Much higher IOR for very pronounced colorful reflections
-              iridescenceThicknessRange: [100, 300], // More concentrated range for stronger color bands
+              iridescence: 0.8, // Moderate iridescence for subtle rainbow effect
+              iridescenceIOR: 1.8, // IOR for iridescence (more subtle than before)
+              iridescenceThicknessRange: [200, 400], // Wider range for smoother color transitions
               envMap: envMap, // Environment map for reflections (critical for glass!)
-              envMapIntensity: 4.5, // Even higher intensity for very visible colorful reflections
+              envMapIntensity: 1.5, // Softer intensity for more uniform reflections
               opacity: 1,
               transparent: true, // Enable transparency for transmission
-              side: THREE.FrontSide
+              side: THREE.DoubleSide, // Render both sides for better glass effect
+              depthWrite: false, // Important for proper transparency rendering
             })
             return physicalMaterial
           })
@@ -252,13 +254,16 @@ export function Logo3D({ className }: Logo3DProps) {
         camera={{ position: [0, 0, 5], fov: 35 }}
         gl={{ 
           antialias: true, 
-          alpha: false,
+          alpha: true, // Enable alpha for better transparency handling
           powerPreference: "high-performance",
           stencil: false,
-          depth: true
+          depth: true,
+          preserveDrawingBuffer: false, // Better performance
+          logarithmicDepthBuffer: false,
         }}
-        dpr={[1, 1.5]}
+        dpr={[1, 2]} // Higher DPR for sharper rendering like Formia
         performance={{ min: 0.5 }}
+        shadows={false} // Disable shadows for cleaner look
         style={{ 
           position: 'absolute', 
           top: 0,
@@ -272,7 +277,9 @@ export function Logo3D({ className }: Logo3DProps) {
           padding: 0,
           cursor: isDragging ? 'grabbing' : 'grab',
           opacity: isLoading ? 0 : 1,
-          transition: 'opacity 0.3s ease-in-out'
+          transition: 'opacity 0.3s ease-in-out',
+          touchAction: 'auto', // Better touch handling like Formia
+          imageRendering: 'auto', // Crisp rendering
         }}
         onPointerDown={() => setIsDragging(true)}
         onPointerUp={() => setIsDragging(false)}
@@ -281,24 +288,27 @@ export function Logo3D({ className }: Logo3DProps) {
         <Suspense fallback={null}>
           <ForceCanvasResize />
           <ClearBackground />
-          <Environment preset="city" />
+          <Environment preset="studio" resolution={256} />
           <StaticBounds margin={3.0}>
             <LogoModel onLoaded={() => setModelLoaded(true)} />
           </StaticBounds>
-          {/* Lighting setup - enhanced for glass material */}
-          <ambientLight intensity={0.8} />
-          <directionalLight position={[5, 5, 5]} intensity={1.2} />
-          <directionalLight position={[-5, -5, -5]} intensity={0.4} />
-          <directionalLight position={[0, 5, 0]} intensity={0.6} />
+          {/* Lighting setup - soft and uniform studio lighting */}
+          <ambientLight intensity={1.5} />
+          <directionalLight position={[10, 10, 5]} intensity={0.6} />
+          <directionalLight position={[-10, -10, -5]} intensity={0.4} />
+          <directionalLight position={[0, 10, 0]} intensity={0.5} />
+          <directionalLight position={[-5, 5, 10]} intensity={0.3} />
+          <directionalLight position={[5, -5, -10]} intensity={0.3} />
           <OrbitControls 
             enableZoom={false}
             enablePan={false}
             autoRotate
-            autoRotateSpeed={0.8}
+            autoRotateSpeed={1.0}
             minPolarAngle={Math.PI / 3}
             maxPolarAngle={Math.PI / 1.5}
             makeDefault
-            dampingFactor={0.1}
+            dampingFactor={0.05} // Smoother damping for more fluid interaction
+            enableDamping={true}
           />
         </Suspense>
       </Canvas>
