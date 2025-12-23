@@ -19,6 +19,49 @@ function ClearBackground() {
   return null
 }
 
+// Component to force immediate canvas resize
+function ForceCanvasResize() {
+  const { gl, size, setSize } = useThree()
+  
+  useEffect(() => {
+    const canvas = gl.domElement
+    if (!canvas) return
+    
+    // Find the container parent
+    let container = canvas.parentElement
+    while (container && container !== document.body) {
+      const style = window.getComputedStyle(container)
+      if (style.position === 'relative' || style.position === 'absolute') {
+        const rect = container.getBoundingClientRect()
+        if (rect.width > 0 && rect.height > 0) {
+          // Force immediate resize
+          gl.setSize(rect.width, rect.height, false)
+          setSize(rect.width, rect.height)
+          break
+        }
+      }
+      container = container.parentElement
+    }
+    
+    // Also force resize on next frame
+    const timeout = requestAnimationFrame(() => {
+      if (container) {
+        const rect = container.getBoundingClientRect()
+        if (rect.width > 0 && rect.height > 0) {
+          gl.setSize(rect.width, rect.height, false)
+          setSize(rect.width, rect.height)
+        }
+      }
+    })
+    
+    return () => {
+      cancelAnimationFrame(timeout)
+    }
+  }, [gl, setSize])
+  
+  return null
+}
+
 function LogoModel({ onLoaded }: { onLoaded?: () => void }) {
   const { scene } = useGLTF("/Logo/plenio-logotype.gltf")
   const groupRef = useRef<THREE.Group>(null)
@@ -152,6 +195,8 @@ export function Logo3D({ className }: Logo3DProps) {
   const [isDragging, setIsDragging] = useState(false)
   const [modelLoaded, setModelLoaded] = useState(false)
   const [isLoading, setIsLoading] = useState(true)
+  const containerRef = useRef<HTMLDivElement>(null)
+  const canvasRef = useRef<HTMLCanvasElement | null>(null)
   
   useEffect(() => {
     if (modelLoaded) {
@@ -161,8 +206,44 @@ export function Logo3D({ className }: Logo3DProps) {
     }
   }, [modelLoaded])
   
+  // Force canvas to fill container immediately
+  useEffect(() => {
+    const container = containerRef.current
+    if (!container) return
+    
+    const findAndResizeCanvas = () => {
+      const canvas = container.querySelector('canvas')
+      if (canvas && container) {
+        const rect = container.getBoundingClientRect()
+        if (rect.width > 0 && rect.height > 0) {
+          canvas.style.width = `${rect.width}px`
+          canvas.style.height = `${rect.height}px`
+          canvas.width = rect.width
+          canvas.height = rect.height
+        }
+      }
+    }
+    
+    // Resize immediately
+    findAndResizeCanvas()
+    
+    // Also on next frame
+    requestAnimationFrame(findAndResizeCanvas)
+    
+    // Set up ResizeObserver
+    const resizeObserver = new ResizeObserver(() => {
+      findAndResizeCanvas()
+    })
+    resizeObserver.observe(container)
+    
+    return () => {
+      resizeObserver.disconnect()
+    }
+  }, [])
+  
   return (
     <div 
+      ref={containerRef}
       className={`${className} bg-background`} 
       style={{ width: '100%', height: '100%', position: 'relative', overflow: 'hidden' }}
     >
@@ -198,6 +279,7 @@ export function Logo3D({ className }: Logo3DProps) {
         onPointerLeave={() => setIsDragging(false)}
       >
         <Suspense fallback={null}>
+          <ForceCanvasResize />
           <ClearBackground />
           <Environment preset="city" />
           <StaticBounds margin={3.0}>
