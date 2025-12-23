@@ -197,7 +197,8 @@ export default function Home() {
 
       {/* Scroll Tilt Image */}
       <ScrollTiltImage 
-        videoSrc="https://cdn.dribbble.com/userupload/19052941/file/original-8861eb29d3e66793a25358a5e5e1ce88.mp4"
+        imageSrc="/Images/hero-dashboard.jpg"
+        imageAlt="Plenio Dashboard"
       />
 
       {/* Logo Ticker */}
@@ -211,7 +212,7 @@ export default function Home() {
             <h3 className="text-sm font-medium text-muted-foreground mb-6">
               {t("features")}
             </h3>
-            <ScrollRevealText className="text-4xl sm:text-5xl lg:text-6xl font-normal leading-tight">
+            <ScrollRevealText key={language} className="text-4xl sm:text-5xl lg:text-6xl font-normal leading-tight">
               <span className="text-muted-foreground">Plenio</span> {t("featuresIntro")}
             </ScrollRevealText>
           </div>
@@ -229,7 +230,7 @@ export default function Home() {
             </div>
             <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl overflow-hidden">
               <video
-                src="https://cdn.dribbble.com/userupload/15982653/file/original-2916eedc1ec4162cd8069f253d9e9f5c.mov"
+                src="/Video/plenio-b2b-landing_page-feature-01.mp4"
                 autoPlay
                 loop
                 muted
@@ -252,12 +253,13 @@ export default function Home() {
             </div>
             <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl overflow-hidden">
               <video
-                src="https://cdn.dribbble.com/userupload/43460030/file/original-88147efc26f589721dea0cdfd22da3bd.mp4"
+                src="/Video/plenio-b2b-landing_page-feature-02.mp4?v=2"
                 autoPlay
                 loop
                 muted
                 playsInline
                 className="w-full h-full object-cover"
+                key="feature-02-v2"
               />
             </div>
           </ScrollRevealCard>
@@ -275,7 +277,7 @@ export default function Home() {
             </div>
             <div className="w-full h-96 bg-foreground/10 dark:bg-muted rounded-2xl overflow-hidden">
               <video
-                src="https://cdn.dribbble.com/userupload/13667104/file/original-e039b91c6bb824279ad0a54bd2fb9264.mp4"
+                src="/Video/plenio-b2b-landing_page-feature-03.mp4"
                 autoPlay
                 loop
                 muted

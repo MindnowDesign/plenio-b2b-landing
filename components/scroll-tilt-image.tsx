@@ -89,6 +89,16 @@ interface ScrollTiltImageProps {
    * @default true
    */
   videoPlaysInline?: boolean;
+  
+  /**
+   * Image source URL to use instead of video
+   */
+  imageSrc?: string;
+  
+  /**
+   * Alt text for the image
+   */
+  imageAlt?: string;
 }
 
 export function ScrollTiltImage({
@@ -107,12 +117,15 @@ export function ScrollTiltImage({
   videoLoop = true,
   videoMuted = true,
   videoPlaysInline = true,
+  imageSrc,
+  imageAlt = "",
 }: ScrollTiltImageProps) {
   const containerRef = useRef<HTMLDivElement>(null);
   const videoRef = useRef<HTMLVideoElement>(null);
+  const imageRef = useRef<HTMLImageElement>(null);
   const boxRef = useRef<HTMLDivElement>(null);
   const [rotation, setRotation] = useState(initialRotation);
-  const [videoAspectRatio, setVideoAspectRatio] = useState<number | null>(null);
+  const [aspectRatio, setAspectRatio] = useState<number | null>(null);
   const [isMobile, setIsMobile] = useState(false);
   const [containerWidth, setContainerWidth] = useState<number | null>(null);
   const animationStartYRef = useRef<number | null>(null);
@@ -138,7 +151,7 @@ export function ScrollTiltImage({
       const videoWidth = video.videoWidth;
       const videoHeight = video.videoHeight;
       if (videoWidth > 0 && videoHeight > 0) {
-        setVideoAspectRatio(videoWidth / videoHeight);
+        setAspectRatio(videoWidth / videoHeight);
       }
     };
 
@@ -154,9 +167,34 @@ export function ScrollTiltImage({
     };
   }, [videoSrc]);
 
-  // Update container width on resize (for mobile aspect ratio calculation)
+  // Calculate image aspect ratio when image loads
   useEffect(() => {
-    if (!isMobile || !boxRef.current) return;
+    const image = imageRef.current;
+    if (!image || !imageSrc) return;
+
+    const handleLoad = () => {
+      const imageWidth = image.naturalWidth;
+      const imageHeight = image.naturalHeight;
+      if (imageWidth > 0 && imageHeight > 0) {
+        setAspectRatio(imageWidth / imageHeight);
+      }
+    };
+
+    image.addEventListener("load", handleLoad);
+    
+    // If image is already loaded
+    if (image.complete && image.naturalWidth > 0) {
+      handleLoad();
+    }
+
+    return () => {
+      image.removeEventListener("load", handleLoad);
+    };
+  }, [imageSrc]);
+
+  // Update container width on resize (for aspect ratio calculation)
+  useEffect(() => {
+    if (!boxRef.current) return;
 
     const updateWidth = () => {
       if (boxRef.current) {
@@ -171,7 +209,7 @@ export function ScrollTiltImage({
     return () => {
       resizeObserver.disconnect();
     };
-  }, [isMobile, videoAspectRatio]);
+  }, [aspectRatio]);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -254,8 +292,8 @@ export function ScrollTiltImage({
             className={`bg-foreground/10 dark:bg-muted/60 rounded-2xl overflow-hidden ${imageClassName}`}
             style={{
               width,
-              height: isMobile && videoAspectRatio && videoSrc && containerWidth
-                ? `${containerWidth / videoAspectRatio}px`
+              height: aspectRatio && containerWidth
+                ? `${containerWidth / aspectRatio}px`
                 : height,
               transform: `perspective(2000px) rotateX(${rotation}deg) translateZ(0)`,
               transformStyle: "preserve-3d",
@@ -265,7 +303,17 @@ export function ScrollTiltImage({
               boxShadow: "0 1px 3px rgba(0, 0, 0, 0.05)",
             }}
           >
-            {videoSrc ? (
+            {imageSrc ? (
+              <img
+                ref={imageRef}
+                src={imageSrc}
+                alt={imageAlt}
+                className="w-full h-full object-cover"
+                style={{
+                  transform: "translateZ(0)",
+                }}
+              />
+            ) : videoSrc ? (
               <video
                 ref={videoRef}
                 src={videoSrc}
