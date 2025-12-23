@@ -4,7 +4,7 @@ import * as React from "react"
 import { useState, useMemo, useRef, useEffect } from "react"
 import Image from "next/image"
 import { Loader2 } from "lucide-react"
-import { Logo3D } from "@/components/logo-3d"
+import { ParticleLogotype } from "@/components/particle-logotype"
 import {
   Dialog,
   DialogContent,
@@ -343,13 +343,24 @@ export function WaitlistDialog({ open, onOpenChange }: WaitlistDialogProps) {
               </div>
             </div>
 
-            {/* Right Column - 3D Logo */}
+            {/* Right Column - Particle Logo */}
             <div 
               ref={imageContainerRef}
               className="hidden md:block relative bg-background overflow-hidden"
             >
               <div className="absolute inset-0">
-                <Logo3D className="w-full h-full" />
+                <ParticleLogotype
+                  src="/Logo/plenio-logotype.svg"
+                  alt="Plenio"
+                  width={500}
+                  height={502}
+                  className="w-full h-full"
+                  particleSize={1}
+                  particleSpacing={6}
+                  mouseRadius={100}
+                  mouseStrength={0.3}
+                  damping={0.85}
+                />
               </div>
             </div>
           </div>
