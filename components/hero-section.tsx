@@ -71,7 +71,7 @@ export function HeroSection({ onWaitlistClick }: HeroSectionProps) {
               onMouseLeave={() => setIsLogoHovered(false)}
             >
               <span
-                className="inline-flex items-center justify-center bg-foreground rounded-md aspect-square w-11 h-11 sm:w-14 sm:h-14 -translate-y-1"
+                className="inline-flex items-center justify-center bg-foreground rounded-lg aspect-square w-11 h-11 sm:w-14 sm:h-14 -translate-y-1"
                 style={{
                   transform: isLogoHovered
                     ? "scale(1.15) rotate(5deg) translateY(-4px)"
@@ -84,7 +84,7 @@ export function HeroSection({ onWaitlistClick }: HeroSectionProps) {
                   alt="Plenio"
                   width={60}
                   height={24}
-                  className="h-5 w-auto sm:h-6 sm:w-auto brightness-0 invert dark:brightness-0 dark:invert-0"
+                  className="h-6 w-auto sm:h-7 sm:w-auto brightness-0 invert dark:brightness-0 dark:invert-0"
                   priority
                 />
               </span>

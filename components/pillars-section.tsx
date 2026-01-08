@@ -1,14 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { Plus } from "lucide-react";
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import { Plus, X } from "lucide-react";
+import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogClose } from "@/components/ui/dialog";
 import { Card } from "@/components/ui/card";
-import { ScrollRevealCard } from "@/components/scroll-reveal-card";
 import { WaitlistTrigger } from "@/components/waitlist-trigger";
 import { useLanguage } from "@/lib/language-context";
 import { getTranslation } from "@/lib/translations";
-import { cn } from "@/lib/utils";
 
 interface PillarCardProps {
   title: string;
@@ -16,75 +14,80 @@ interface PillarCardProps {
   details: string;
   expandedContent: string;
   imageUrl: string;
-  delay?: number;
 }
 
-function PillarCard({ title, description, details, expandedContent, imageUrl, delay = 0 }: PillarCardProps) {
+function PillarCard({ title, description, details, expandedContent, imageUrl }: PillarCardProps) {
   const [isOpen, setIsOpen] = useState(false);
 
   return (
     <>
-      <ScrollRevealCard delay={delay}>
-        <Card 
-          onClick={() => setIsOpen(true)}
-          className="group relative h-full overflow-hidden bg-card hover:border-foreground/20 transition-colors cursor-pointer border-0 outline-none !p-0 !gap-0 rounded-2xl"
-        >
-          {/* Background Image with overlay */}
-          <div className="relative h-full min-h-[280px] w-full overflow-hidden rounded-2xl">
-            {/* Background Image */}
-            <div 
-              className="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
-              style={{ backgroundImage: `url(${imageUrl})` }}
-            />
-            
-            {/* Dark gradient overlay from bottom to top */}
-            <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
-            
-            {/* Content */}
-            <div className="relative h-full flex flex-col justify-end p-6">
-              <div className="flex items-center justify-between gap-4">
-                <h3 className="text-xl font-medium flex-1 text-white">{title}</h3>
-                {/* Plus button */}
-                <button
-                  onClick={() => setIsOpen(true)}
-                  className="h-10 w-10 shrink-0 rounded-full bg-white text-foreground flex items-center justify-center hover:scale-110 transition-transform duration-300 ease-out shadow-lg"
-                  aria-label={`Learn more about ${title}`}
-                >
-                  <Plus className="h-5 w-5" />
-                </button>
-              </div>
+      <Card 
+        onClick={() => setIsOpen(true)}
+        className="group relative h-full overflow-hidden bg-card hover:border-foreground/20 transition-colors cursor-pointer border-0 outline-none !p-0 !gap-0 rounded-2xl"
+      >
+        {/* Background Image with overlay */}
+        <div className="relative h-full min-h-[280px] w-full overflow-hidden rounded-2xl">
+          {/* Background Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center group-hover:scale-110 transition-transform duration-700 ease-[cubic-bezier(0.34,1.56,0.64,1)]"
+            style={{ backgroundImage: `url(${imageUrl})` }}
+          />
+          
+          {/* Dark gradient overlay from bottom to top */}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
+          
+          {/* Content */}
+          <div className="relative h-full flex flex-col justify-end p-6">
+            <div className="flex items-center justify-between gap-4">
+              <h3 className="text-xl font-medium flex-1 text-white">{title}</h3>
+              {/* Plus button */}
+              <button
+                onClick={(e) => {
+                  e.stopPropagation();
+                  setIsOpen(true);
+                }}
+                className="h-10 w-10 shrink-0 rounded-full bg-white text-foreground flex items-center justify-center hover:scale-110 transition-transform duration-300 ease-out shadow-lg"
+                aria-label={`Learn more about ${title}`}
+              >
+                <Plus className="h-5 w-5" />
+              </button>
             </div>
           </div>
-        </Card>
-      </ScrollRevealCard>
+        </div>
+      </Card>
 
       {/* Dialog */}
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-4xl sm:max-w-[90vw] lg:max-w-4xl xl:max-w-5xl max-h-[90vh] overflow-y-auto p-0 border-0 shadow-none bg-transparent !animate-none !transition-none data-[state=open]:!animate-none data-[state=closed]:!animate-none [&>button]:hidden [&>div[data-radix-dialog-overlay]]:!animate-none [&>div[data-radix-dialog-overlay]]:!transition-none">
-          <div className="bg-background rounded-xl border shadow-lg overflow-hidden">
+        <DialogContent className="max-w-4xl sm:max-w-[90vw] lg:max-w-4xl xl:max-w-5xl max-h-[90vh] overflow-y-auto p-0 [&>button:last-child]:hidden">
+          <div className="bg-background rounded-xl border shadow-lg relative">
+            {/* Close button */}
+            <DialogClose className="absolute right-4 top-4 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none bg-background/80 backdrop-blur-sm p-2">
+              <X className="h-5 w-5" />
+              <span className="sr-only">Close</span>
+            </DialogClose>
+            
             {/* Image */}
             <div 
-              className="relative h-48 w-full bg-cover bg-center"
+              className="relative h-96 w-full bg-cover bg-center"
               style={{ backgroundImage: `url(${imageUrl})` }}
             />
             
             {/* Content */}
-            <div className="p-6 space-y-4">
-              <DialogHeader>
-                <DialogTitle className="text-2xl font-medium leading-tight mb-4">{title}</DialogTitle>
-              </DialogHeader>
-              <div className="space-y-4">
-                {expandedContent.split('\n\n').map((paragraph, index) => (
-                  <p
-                    key={index}
-                    className={cn(
-                      "text-base leading-7",
-                      index === 0 ? "text-foreground font-medium" : "text-muted-foreground"
-                    )}
-                  >
-                    {paragraph}
-                  </p>
-                ))}
+            <div className="p-8 sm:p-12">
+              <div className="max-w-3xl mx-auto">
+                <DialogHeader className="mb-8">
+                  <DialogTitle className="text-3xl sm:text-4xl font-medium leading-tight">{title}</DialogTitle>
+                </DialogHeader>
+                <div className="space-y-6">
+                  {expandedContent.split('\n\n').map((paragraph, index) => (
+                    <p
+                      key={index}
+                      className="text-base leading-8 text-muted-foreground"
+                    >
+                      {paragraph}
+                    </p>
+                  ))}
+                </div>
               </div>
             </div>
           </div>
@@ -129,7 +132,6 @@ export function PillarsSection({ onWaitlistClick }: PillarsSectionProps) {
             details={t("pillar1Details")}
             expandedContent={t("pillar1Expanded")}
             imageUrl={pillar1Image}
-            delay={0.1}
           />
           <PillarCard
             title={t("pillar2Title")}
@@ -137,7 +139,6 @@ export function PillarsSection({ onWaitlistClick }: PillarsSectionProps) {
             details={t("pillar2Details")}
             expandedContent={t("pillar2Expanded")}
             imageUrl={pillar2Image}
-            delay={0.2}
           />
           <PillarCard
             title={t("pillar3Title")}
@@ -145,7 +146,6 @@ export function PillarsSection({ onWaitlistClick }: PillarsSectionProps) {
             details={t("pillar3Details")}
             expandedContent={t("pillar3Expanded")}
             imageUrl={pillar3Image}
-            delay={0.3}
           />
         </div>
 

@@ -34,15 +34,15 @@ export const translations = {
     pillar1Title: "Find only relevant candidates",
     pillar1Description: "Every candidate you see is pre qualified and aligned with your role.",
     pillar1Details: "No CV spam. No endless filtering.",
-    pillar1Expanded: "Only relevant candidates\n\nEvery candidate you see is pre qualified and aligned with your role.\n\nNo CV spam. No endless filtering.",
+    pillar1Expanded: "Plenio is built in pursuit of high-quality matches. With its AI-powered screening, pre-qualified candidates, and zero-friction workflows, it delivers a focused experience ideal for fast-paced hiring environments.\n\nPlenio's obsessive focus on relevance not only results in improved hiring efficiency, but also enables teams to make better decisions faster. Companies that use Plenio report a significant reduction in time-to-hire, vastly improved candidate quality, and positions that fill faster.",
     pillar2Title: "Hire faster with less effort",
     pillar2Description: "Reduce time to hire by focusing only on candidates who fit from day one.",
     pillar2Details: "Plenio works in the background while you focus on decisions.",
-    pillar2Expanded: "Hire faster with less effort\n\nReduce time to hire by focusing only on candidates who fit from day one.\n\nPlenio works in the background while you focus on decisions.",
+    pillar2Expanded: "Plenio is built in pursuit of high-performance hiring. With its continuous matching engine, real-time candidate discovery, and zero-friction workflows, it delivers a focused experience ideal for fast-paced recruitment environments.\n\nPlenio's obsessive focus on speed not only results in improved hiring productivity, but also enables teams to move faster. Companies that switch to Plenio report a significant uplift in qualified candidates, vastly reduced time-to-hire, and positions that fill faster.",
     pillar3Title: "Fair and transparent pricing",
     pillar3Description: "No recruiter commissions.",
     pillar3Details: "No percentage based fees. Just predictable pricing aligned with your hiring needs.",
-    pillar3Expanded: "Fair and transparent pricing\n\nNo recruiter commissions.\n\nNo percentage based fees.\n\nJust predictable pricing aligned with your hiring needs.",
+    pillar3Expanded: "Plenio is built in pursuit of transparent pricing. With its fixed-fee structure, no hidden commissions, and predictable costs, it delivers a fair experience ideal for companies of all sizes.\n\nPlenio's obsessive focus on transparency not only results in better budget planning, but also enables teams to scale their hiring without surprises. Companies that use Plenio report significant cost savings compared to traditional recruiters, with full visibility into their hiring investment.",
     
     // Features Section
     featuresTitle: "Why companies choose Plenio",
