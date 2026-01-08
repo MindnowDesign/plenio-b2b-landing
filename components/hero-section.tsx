@@ -66,7 +66,7 @@ export function HeroSection({ onWaitlistClick }: HeroSectionProps) {
           <h1 className="text-4xl font-medium tracking-tight sm:text-6xl lg:text-7xl">
             {t("heroTitle")}
             <span
-              className="inline-flex items-start ml-6 mr-1"
+              className="inline-flex items-start ml-3 mr-4"
               onMouseEnter={() => setIsLogoHovered(true)}
               onMouseLeave={() => setIsLogoHovered(false)}
             >

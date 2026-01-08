@@ -8,9 +8,9 @@ export const translations = {
     theme: "Theme",
     
     // Hero Section
-    heroTitle: "Hire the right",
-    heroSubtitle: " people. Not just more applicants.",
-    heroDescription: "Plenio helps companies hire faster by matching them with pre qualified, high intent candidates powered by AI and driven by real hiring signals.",
+    heroTitle: "Stop searching. Start interviewing.",
+    heroSubtitle: "Hire with confidence.",
+    heroDescription: "Tens of thousands of qualified candidates are already in Plenio. No noise, just candidates who fit.",
     learnMore: "See how it works",
     
     // Features List Section

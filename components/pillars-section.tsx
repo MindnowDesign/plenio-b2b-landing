@@ -46,7 +46,7 @@ function PillarCard({ title, description, details, expandedContent, imageUrl }: 
                   e.stopPropagation();
                   setIsOpen(true);
                 }}
-                className="h-10 w-10 shrink-0 rounded-full bg-white text-foreground flex items-center justify-center hover:scale-110 transition-transform duration-300 ease-out shadow-lg"
+                className="h-10 w-10 shrink-0 rounded-full bg-white text-black dark:text-black flex items-center justify-center hover:scale-110 transition-transform duration-300 ease-out shadow-lg"
                 aria-label={`Learn more about ${title}`}
               >
                 <Plus className="h-5 w-5" />

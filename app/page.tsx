@@ -11,8 +11,6 @@ import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
 import { LogoTicker } from "@/components/logo-ticker";
 import { AnimatedIcon } from "@/components/animated-icon";
-import { ScrollRevealText } from "@/components/scroll-reveal-text";
-import { ScrollRevealCard } from "@/components/scroll-reveal-card";
 import { LanguageSelector } from "@/components/language-selector";
 import { WaitlistDialog } from "@/components/waitlist-dialog";
 import { WaitlistTrigger } from "@/components/waitlist-trigger";
@@ -210,16 +208,13 @@ export default function Home() {
         <div className="container mx-auto px-4">
           {/* Introduction Text */}
           <div className="mb-24 max-w-4xl">
-            <h3 className="text-sm font-medium text-muted-foreground mb-6">
-              {t("features")}
-            </h3>
-            <ScrollRevealText key={language} className="text-4xl sm:text-5xl lg:text-6xl font-normal leading-tight">
+            <div className="text-4xl sm:text-5xl lg:text-6xl font-medium leading-tight">
               {t("featuresIntro")}
-            </ScrollRevealText>
+            </div>
           </div>
 
           {/* Feature 1 */}
-          <ScrollRevealCard className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24" delay={0}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
                 {t("placeholderTitle1")}
@@ -239,10 +234,10 @@ export default function Home() {
                 className="w-full h-full object-cover"
               />
             </div>
-          </ScrollRevealCard>
+          </div>
 
           {/* Feature 2 */}
-          <ScrollRevealCard className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24" delay={0.15}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center mb-24">
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
                 {t("placeholderTitle2")}
@@ -263,10 +258,10 @@ export default function Home() {
                 key="feature-02-v2"
               />
             </div>
-          </ScrollRevealCard>
+          </div>
 
           {/* Feature 3 */}
-          <ScrollRevealCard className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center" delay={0.3}>
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
             <div>
               <h2 className="text-3xl font-medium tracking-tight mb-4">
                 {t("placeholderTitle3")}
@@ -286,7 +281,7 @@ export default function Home() {
                 className="w-full h-full object-cover"
               />
             </div>
-          </ScrollRevealCard>
+          </div>
         </div>
       </section>
 
