@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import { Separator } from "@/components/ui/separator";
-import { ArrowRight, CheckCircle2, Zap, Shield, TrendingUp, Users, BarChart3, Filter, UserSearch, Clock, CreditCard, Sparkles, LayoutDashboard, Linkedin, Instagram, Menu, X } from "lucide-react";
+import { ArrowRight, CheckCircle2, Zap, Shield, TrendingUp, Users, BarChart3, Filter, UserSearch, Clock, CreditCard, Sparkles, LayoutDashboard, Linkedin, Instagram, Menu, X, Target, DollarSign, RefreshCw } from "lucide-react";
 import Link from "next/link";
 import Image from "next/image";
 import { ThemeToggle } from "@/components/theme-toggle";
@@ -20,6 +20,7 @@ import { IntegrationsDock } from "@/components/integrations-dock";
 import { HeroSection } from "@/components/hero-section";
 import { ScrollTiltImage } from "@/components/scroll-tilt-image";
 import { ParticleLogo } from "@/components/particle-logo";
+import { PillarsSection } from "@/components/pillars-section";
 import { useLanguage } from "@/lib/language-context";
 import { getTranslation } from "@/lib/translations";
 
@@ -213,7 +214,7 @@ export default function Home() {
               {t("features")}
             </h3>
             <ScrollRevealText key={language} className="text-4xl sm:text-5xl lg:text-6xl font-normal leading-tight">
-              <span className="text-muted-foreground">Plenio</span> {t("featuresIntro")}
+              {t("featuresIntro")}
             </ScrollRevealText>
           </div>
 
@@ -224,7 +225,7 @@ export default function Home() {
                 {t("placeholderTitle1")}
               </h2>
               <p className="text-lg text-muted-foreground leading-8 mb-6">
-                {t("placeholderDescription")}
+                {t("placeholderDescription1")}
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
@@ -247,7 +248,7 @@ export default function Home() {
                 {t("placeholderTitle2")}
               </h2>
               <p className="text-lg text-muted-foreground leading-8 mb-6">
-                {t("placeholderDescription")}
+                {t("placeholderDescription2")}
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
@@ -271,7 +272,7 @@ export default function Home() {
                 {t("placeholderTitle3")}
               </h2>
               <p className="text-lg text-muted-foreground leading-8 mb-6">
-                {t("placeholderDescription")}
+                {t("placeholderDescription3")}
               </p>
               <WaitlistTrigger variant="link" onClick={() => setWaitlistOpen(true)} />
             </div>
@@ -309,6 +310,9 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Pillars Section */}
+      <PillarsSection onWaitlistClick={() => setWaitlistOpen(true)} />
+
       {/* Features Section */}
       <section id="features" className="bg-background py-24 sm:py-32">
         <div className="container mx-auto px-4">
@@ -325,7 +329,7 @@ export default function Home() {
             <div className="flex flex-col gap-6">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0}>
-                  <Filter className="h-6 w-6" />
+                  <Target className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
@@ -336,7 +340,7 @@ export default function Home() {
             <div className="flex flex-col gap-6">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.1}>
-                  <UserSearch className="h-6 w-6" />
+                  <TrendingUp className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
@@ -347,7 +351,7 @@ export default function Home() {
             <div className="flex flex-col gap-6">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.2}>
-                  <Clock className="h-6 w-6" />
+                  <DollarSign className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
@@ -359,7 +363,7 @@ export default function Home() {
             <div className="flex flex-col gap-6">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.3}>
-                  <CreditCard className="h-6 w-6" />
+                  <RefreshCw className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
@@ -370,7 +374,7 @@ export default function Home() {
             <div className="flex flex-col gap-6">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.4}>
-                  <Sparkles className="h-6 w-6" />
+                  <Users className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
@@ -381,7 +385,7 @@ export default function Home() {
             <div className="flex flex-col gap-6">
               <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-foreground dark:bg-foreground">
                 <AnimatedIcon delay={0.5}>
-                  <LayoutDashboard className="h-6 w-6" />
+                  <Shield className="h-6 w-6" />
                 </AnimatedIcon>
               </div>
               <p className="text-lg md:text-base leading-7">
@@ -441,6 +445,12 @@ export default function Home() {
                   <AccordionTrigger className="text-left text-lg font-normal py-7">{t("faq5Question")}</AccordionTrigger>
                   <AccordionContent className="text-base text-muted-foreground">
                     {t("faq5Answer")}
+                  </AccordionContent>
+                </AccordionItem>
+                <AccordionItem value="item-6" className="border-b">
+                  <AccordionTrigger className="text-left text-lg font-normal py-7">{t("faq6Question")}</AccordionTrigger>
+                  <AccordionContent className="text-base text-muted-foreground">
+                    {t("faq6Answer")}
                   </AccordionContent>
                 </AccordionItem>
               </Accordion>

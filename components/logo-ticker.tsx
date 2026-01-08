@@ -41,7 +41,7 @@ export const LogoTicker = memo(function LogoTicker({ logos = defaultLogos }: Log
       <div className="container mx-auto px-4">
         <div className="mx-auto max-w-2xl text-center">
           <p className="mt-4 text-base text-muted-foreground">
-            Trusted by 100+ top Swiss companies
+            Trusted by 100+ forward thinking Swiss companies
           </p>
         </div>
       </div>
